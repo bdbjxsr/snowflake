@@ -1,0 +1,4 @@
+eclipse.preferences.version=1
+encoding//framework/auth.py=utf-8
+encoding//framework/models/auth_model.py=utf-8
+encoding//framework/models/base_model.py=utf-8

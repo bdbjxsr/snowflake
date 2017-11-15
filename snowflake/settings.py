@@ -31,12 +31,12 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    'framework.apps.FrameworkConfig',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles',    
 ]
 
 MIDDLEWARE = [
@@ -75,8 +75,12 @@ WSGI_APPLICATION = 'snowflake.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': 'orcl',
+        'USER': 'mysite',
+        'PASSWORD': 'mysite',
+        'HOST':'192.168.56.133',
+        'PORT':'1521',
     }
 }
 
