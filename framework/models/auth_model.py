@@ -19,7 +19,7 @@ class User(SnowModel):
     #密码
     password = models.CharField(max_length=256, verbose_name='密码')
     #部门（User-ForeignKey）
-    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    department = models.ForeignKey(Department, null=True, blank=True, on_delete=models.CASCADE)
     #上级员工（User-ManyToManyField）
     superior = models.ManyToManyField('self')
     
