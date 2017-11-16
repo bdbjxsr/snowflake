@@ -104,4 +104,4 @@ venv.bak/
 .mypy_cache/
 
 # django db init
-/migrations
+/migrations/*
