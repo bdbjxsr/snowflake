@@ -4,9 +4,32 @@
 #时间：    20171114
 from django.db import models
 
-from .base_model import SnowModel
+from .base_model import SnowModel, SoftDeletionManager
+import hashlib
 
-class Department(SnowModel):
+class UserManager(SoftDeletionManager):
+ 
+    def create_user(self, employee_id, username, department_id , superior, **extra_fields):
+        """
+        Creates and saves a User with the given email, date of
+        birth and password.
+        """
+        if not employee_id:
+            raise ValueError('Users must have an employee_id')
+        
+        
+        user = self.model(
+            employee_id = employee_id,
+            username = username,
+            department_id = department_id,
+            password = hashlib.md5('nbcb'.encode('utf-8')).hexdigest()
+             )
+        print("0055555555555555555555555555555555555550")
+        user.save(using=self._db)
+        User.objects.get(employee_id=employee_id).superior.add(superior)
+        return user 
+
+class Department(SnowModel):    
     name = models.CharField(max_length=256, verbose_name='部门名称')
     #部门（Department-ForeignKey）
     super_department = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
@@ -18,14 +41,14 @@ class User(SnowModel):
     username = models.CharField(max_length=256, verbose_name='员工姓名')
     #密码
     password = models.CharField(max_length=256, verbose_name='密码')
+    
     #部门（User-ForeignKey）
-    department = models.ForeignKey(Department, null=True, blank=True, on_delete=models.CASCADE)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
     #上级员工（User-ManyToManyField）
     superior = models.ManyToManyField('self')
     
-    def create_user(self):
-        pass
-    
+    objects = UserManager()
+        
     def set_password(self, raw_password):
         pass
     

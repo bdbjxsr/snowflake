@@ -7,6 +7,7 @@ from django.shortcuts import render
 from framework.decorator import login_required
 from framework import auth
 from framework.models.auth_model import User
+from test.test_typing import Employee
 
 @login_required()
 def index(request):
@@ -17,8 +18,25 @@ def login(request):
     auth.login(request, user)
     return render(request, "framework/login.html", {})
 
+
+
 def loginPage(request):
+    if request.method =='POST':
+        data = request.POST
+        employee_id = data.get('employee_id')
+        password = data.get('password')
+        user= auth.authenticate(employee_id=employee_id, password=password)
+        if user :
+            print("TRUE")
+            auth.login(request, employee_id)                
+            return render(request,'framework/index.html',{})
+        else:
+            employee_id = employee_id
+            password=''
+            return render(request, 'framework/login_page.html', {'employee_id':employee_id,})
     return render(request, "framework/login_page.html", {})
+
+
 
 def logout(request):
     auth.logout(request)

@@ -1,0 +1,13 @@
+*.log*
+*.iml
+
+.DS_Store
+.idea/
+.yarn-cache/
+
+coverage/
+dist/
+docs/app/docgenInfo.json
+docs/build/
+dll/
+node_modules/
