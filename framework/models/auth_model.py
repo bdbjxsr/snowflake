@@ -24,7 +24,6 @@ class UserManager(SoftDeletionManager):
             department_id = department_id,
             password = hashlib.md5('nbcb'.encode('utf-8')).hexdigest()
              )
-        print("0055555555555555555555555555555555555550")
         user.save(using=self._db)
         User.objects.get(employee_id=employee_id).superior.add(superior)
         return user 

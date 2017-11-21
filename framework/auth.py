@@ -12,11 +12,9 @@ def authenticate(employee_id,password):
         db_password = m.password
         password = hashlib.md5(password.encode('utf-8')).hexdigest()
         if password == db_password:
-            user = {}
-            print("111")
             return True
     except :
-        print("员工号不存在或密码错误，请重新输入！")
+        pass
     
 
 def login(request, employee_id):

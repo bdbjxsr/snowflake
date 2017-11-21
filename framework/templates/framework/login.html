@@ -1,1 +1,77 @@
-this is login success
+{% load static %}
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	
+	<!-- CSS -->
+    <link rel="stylesheet" href="{% static 'CSS-master/semantic.min.css' %}">
+
+    <script src="{% static 'CSS-master/semantic.min.js' %}"></script>
+   
+    <style type="text/css">
+        body {
+          background: url({% static 'images/desk.jpg' %}) black no-repeat center;
+        }
+        body > .grid {
+          height: 100%;
+        }
+        .image {
+          margin-top: 100px;
+        }
+        .column {
+          max-width: 330px;
+        }
+        
+    </style>
+  
+</head>
+<body>
+
+    <div class="ui image"></div>
+       <div class=" ui very padded text container">
+         <h1 class="ui huge center aligned yellow header"> 科技事务综合管理平台 </h1>
+         <h1 class="ui header"></h1>
+          
+              <div class="ui very padded centered grid">
+                 <div class="column">
+                    <form class="ui form" action="{% url 'framework:login' %}" method='post' enctype="multipart/form-data">
+                      {% csrf_token %}
+                       <div class="field">
+                          <div class="ui large left icon centered input">
+                             <i class="user icon"></i>
+                             <input type="text" name="employee_id" placeholder="员工号" value="{{ employee_id }}">
+                          </div> 
+                       </div>
+                       <div class="ui hidden divider"></div>
+                       <div class="field">
+                          <div class="ui large left icon input">
+                             <i class="lock icon"></i>
+                             <input type="password" name="password" placeholder="密码" value="{{ password }}">
+                          </div>
+                       </div>
+                          
+                       <div class="ui hidden divider"></div>
+                       <div class="ui divider"></div>
+                       <button type="submit" class="ui large fluid yellow inverted submit button" >登 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+                          
+                    </form>
+                    <div class="ui hidden divider"></div>
+                    {% if not user %}
+                    <div class="ui error tiny message">
+                      <i class="large warning sign icon"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;员工号不存在或密码错误！
+                    </div>
+                    {% endif %}
+               </div>
+            </div>
+            
+               
+        </div>
+
+</body>
+
+</html>

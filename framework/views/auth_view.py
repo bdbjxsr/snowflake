@@ -2,6 +2,8 @@
 #说明：    定义了认证相关方法
 #作者：    万良卿
 #时间：    20171114
+from django.http import HttpResponseRedirect, HttpResponse
+from django.core.urlresolvers import reverse
 from django.shortcuts import render
 
 from framework.decorator import login_required
@@ -13,28 +15,21 @@ from test.test_typing import Employee
 def index(request):
     return render(request, "framework/index.html", {})
 
+
 def login(request):
-    user = User(employee_id='123456', username='hello', password='123')
-    auth.login(request, user)
-    return render(request, "framework/login.html", {})
-
-
-
-def loginPage(request):
     if request.method =='POST':
         data = request.POST
         employee_id = data.get('employee_id')
         password = data.get('password')
         user= auth.authenticate(employee_id=employee_id, password=password)
         if user :
-            print("TRUE")
-            auth.login(request, employee_id)                
-            return render(request,'framework/index.html',{})
+            auth.login(request, employee_id)
+            return HttpResponseRedirect(reverse('framework:index'))
         else:
             employee_id = employee_id
             password=''
-            return render(request, 'framework/login_page.html', {'employee_id':employee_id,})
-    return render(request, "framework/login_page.html", {})
+            return render(request, 'framework/login.html', {'employee_id':employee_id,'user':user})
+    return render(request, "framework/login.html", {'user':True})
 
 
 
