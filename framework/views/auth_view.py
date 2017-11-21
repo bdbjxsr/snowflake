@@ -17,6 +17,7 @@ def index(request):
 
 
 def login(request):
+    error = ''
     if request.method =='POST':
         data = request.POST
         employee_id = data.get('employee_id')
@@ -27,9 +28,10 @@ def login(request):
             return HttpResponseRedirect(reverse('framework:index'))
         else:
             employee_id = employee_id
-            password=''
-            return render(request, 'framework/login.html', {'employee_id':employee_id,'user':user})
-    return render(request, "framework/login.html", {'user':True})
+            password = ''
+            error = True
+            return render(request, 'framework/login.html', {'employee_id':employee_id,'error':error})
+    return render(request, "framework/login.html", {'error':error})
 
 
 
