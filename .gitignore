@@ -105,3 +105,8 @@ venv.bak/
 
 # django db init
 /migrations/*
+
+# Eclipse Project files
+.classpath
+.project
+.settings/
