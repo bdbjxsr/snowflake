@@ -3,6 +3,8 @@
 #作者：    万良卿
 #时间：    20171114
 import hashlib
+from datetime import datetime
+
 
 from django.db import models
 from django.db.models import Q
@@ -11,8 +13,11 @@ from framework.models.base_model import SnowModel
 from framework.managers.UserPositionManager import UserPositionManager
 
 
-class Department(SnowModel):    
+class Department(SnowModel):
+    #部门名称
     name = models.CharField(max_length=256, verbose_name='部门名称')
+    #部门代码
+    code = models.CharField(max_length=256, verbose_name='部门代码')
     #部门（Department-ForeignKey）
     super_department = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
     
@@ -47,38 +52,47 @@ class User(SnowModel):
     #返回用户组权限的集合
     def get_user_permissions(self, type=None):
         permissions = {}
-        for position in self.get_user_position():
-            for permission in position.permission_set.all() :
-                if type and permission.type == type: permissions[permission.value] = permission.name
+        for up in self.get_user_user_position():
+            for permission in up.position.permissions.all() :
+                if not type or permission.type == type: permissions[permission.value] = permission.name
         return permissions
     
     #返回用户代理权限的集合
     def get_temp_permissions(self, type=None):
         permissions = {}
-        for position in self.get_temp_position():
-            for permission in position.permission_set.all() :
-                if type and permission.type == type: permissions[permission.value] = permission.name
+        for up in self.get_temp_user_position():
+            for permission in up.position.permissions.all() :
+                if not type or permission.type == type: permissions[permission.value] = permission.name
         return permissions
     
     #返回用户所有的权限集合
     def get_all_permissions(self, type=None):
         permissions = {}
-        for position in self.get_all_position():
-            for permission in position.permission_set.all() :
-                if type and permission.type == type: permissions[permission.value] = permission.name
+        for up in self.get_all_user_position():
+            for permission in up.position.permissions.all() :
+                if not type or permission.type == type: permissions[permission.value] = permission.name
         return permissions
     
+    #返回用户所有的权限集合
     def get_user_position(self):
-        return self.position_set.all().filter(is_authorized=False)
-    
+        return self.position_set.all()
+    #返回用户所有的权限集合
     def get_temp_position(self):
-        return self.position_set.all().filter(Q(is_authorized=True) & 
-                                              Q(start_date__gt=now) & 
-                                              Q(expire_date__lt=now))
+        return self.position_set.all()
+    #返回用户所有的权限集合
     def get_all_position(self):
-        return self.position_set.all().filter(
-            (Q(is_authorized=True) & Q(start_date__gt=now) & Q(expire_date__lt=now)) |
-            (Q(is_authorized=False)))
+        return self.position_set.all()
+    
+    #返回用户职位
+    def get_all_user_position(self):
+        return self.get_user_user_position().all() | self.get_temp_user_position().all()
+    #返回用户用户临时职位
+    def get_temp_user_position(self):
+        now = datetime.now()
+        return UserPosition.objects.filter(user=self, is_authorized=True, start_date__lt=now, expire_date__gt=now)
+    #返回用户所有职位
+    def get_user_user_position(self):
+        return UserPosition.objects.filter(user=self, is_authorized=False)
 
     
     @classmethod
@@ -97,6 +111,8 @@ class User(SnowModel):
 class Position(SnowModel):
     #所属职位名称
     name = models.CharField(max_length=256, verbose_name='职位名称')
+    #职位代码
+    code = models.CharField(max_length=256, verbose_name='职位代码')
     #所属部门（Department-ForeignKey）
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     #所属员工（User-ManyToManyField）
@@ -132,9 +148,8 @@ class UserPosition(SnowModel):
     #代岗截止时间
     expire_date = models.DateTimeField(null=True, blank=True)
     
-    objects = UserPositionManager()
-    all_objects = UserPositionManager(alive_only=False)
-    
+    class Meta:  
+        unique_together = (("position", "user"),)
     def __str__(self):
         return self.position.name+self.user.username
     

@@ -6,12 +6,13 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 
-from framework.decorator import login_required
+from framework.decorator import login_required, permission_required
 from framework import auth
 from framework.models.auth_model import User
 from test.test_typing import Employee
 
 @login_required()
+@permission_required(perm=('can_program','can_manage'))
 def index(request):
     return render(request, "framework/index.html", {})
 
@@ -24,7 +25,7 @@ def login(request):
         password = data.get('password')
         user= auth.authenticate(employee_id=employee_id, password=password)
         if user :
-            auth.login(request, employee_id)
+            auth.login(request, user)
             return HttpResponseRedirect(reverse('framework:index'))
         else:
             employee_id = employee_id

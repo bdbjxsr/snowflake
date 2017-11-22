@@ -114,7 +114,10 @@ USE_L10N = True
 
 USE_TZ = False
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 60*30
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
@@ -122,4 +125,4 @@ STATIC_URL = '/static/'
 
 LOGIN_URL = '/framework/login/'
 
-REDIRECT_URL = ''
+REDIRECT_URL = '/framework/permission/denied/'

@@ -4,9 +4,11 @@
 #时间：    20171115
 from functools import wraps
 
+
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
+from django.utils import six
 
 
 def user_passes_test(test_func, redirect_url):
@@ -38,8 +40,20 @@ def login_required(redirect_url=None):
     
     return user_passes_test(check_login, redirect_url=redirect_url or settings.LOGIN_URL)
 
+def manager_required(user, redirect_url=None):
+    """
+    Decorator for views that checks that the user is logged in, redirecting
+    to the log-in page if necessary.
+    """
+    def check_manager(request):
+        if request.user.has_key('employee_id'):
+            return True
+        return False
+    
+    return user_passes_test(check_login, redirect_url=redirect_url or settings.LOGIN_URL)
 
-def permission_required(perm, redirect_url=None, raise_exception=False):
+
+def permission_required(perm, redirect_url=None):
     """
     Decorator for views that checks whether a user has a particular permission
     enabled, redirecting to the log-in page if necessary.
@@ -52,11 +66,9 @@ def permission_required(perm, redirect_url=None, raise_exception=False):
         else:
             perms = perm
         # First check if the user has the permission (even anon users)
-        if request.user.has_perms(perms):
-            return True
-        # In case the 403 handler should be called raise the exception
-        if raise_exception:
-            raise PermissionDenied
-        # As the last resort, show the login form
-        return False
+        for p in perms:
+            if  p not in request.session['permissions'].keys():
+                return False
+        return True
+    
     return user_passes_test(check_perms, redirect_url=redirect_url or settings.REDIRECT_URL)
