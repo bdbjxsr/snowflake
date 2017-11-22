@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import auth_view
+from framework.views import auth_view, test_view
 
 app_name = 'framework'
 urlpatterns = [
@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^login/$', auth_view.login, name='login'),
     url(r'^logout/$', auth_view.logout, name='logout'),
     url(r'^permission/denied/$', auth_view.permissionDenied, name='permissionDenied'),
+    url(r'^test/regiest/$', test_view.testRegiestUser, name='testRegiestUser'),
 ]

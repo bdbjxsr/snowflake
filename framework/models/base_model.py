@@ -4,7 +4,6 @@
 #时间：    20171114
 from django.db import models
 from framework.models import auth_model
-import hashlib
 #软删除model
 class SoftDeletionQuerySet(models.QuerySet):
     def delete(self):

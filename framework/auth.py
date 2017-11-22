@@ -3,25 +3,21 @@
 #作者：    万良卿
 #时间：    20171114
 
-from .models.auth_model import User
-import hashlib
+from framework.models.auth_model import User
 
-def authenticate(employee_id,password):
+def authenticate(employee_id, password):
     try:
-        m = User.objects.get(employee_id=employee_id)
-        db_password = m.password
-        password = hashlib.md5(password.encode('utf-8')).hexdigest()
-        if password == db_password:
-            return True
+        user = User.objects.get(employee_id=employee_id)
+        if user.check_password(password):
+            return user
     except :
-        pass
+        return False
     
 
 def login(request, employee_id):
     request.session['employee_id'] = employee_id
     print(employee_id)
     if hasattr(request, 'employee_id'):
-        #request.user = user
         return True
          
 def logout(request):
