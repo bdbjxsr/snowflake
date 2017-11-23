@@ -15,7 +15,6 @@ def authenticate(employee_id, password):
     
 
 def login(request, user):
-    request.user = user
     request.session['employee_id'] = user.employee_id
     request.session['permissions'] = user.get_all_permissions()
     if hasattr(request, 'employee_id'):

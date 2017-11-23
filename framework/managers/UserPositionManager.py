@@ -16,7 +16,7 @@ class UserPositionManager(SoftDeletionManager):
     def get_queryset(self):
         now = datetime.now()
         return super(SoftDeletionManager, self).get_queryset().filter(
-                (Q(is_authorized=True) & Q(start_date__gt=now) & Q(expire_date__lt=now)) |
+                (Q(is_authorized=True) & Q(start_date__lt=now) & Q(expire_date__gt=now)) |
                 (Q(is_authorized=False))
                 )
     

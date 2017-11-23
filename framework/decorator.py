@@ -61,6 +61,8 @@ def permission_required(perm, redirect_url=None):
     is raised.
     """
     def check_perms(request):
+        if request.user.is_superuser:
+            return True
         if isinstance(perm, six.string_types):
             perms = (perm, )
         else:
