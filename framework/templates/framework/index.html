@@ -7,8 +7,7 @@
     <link rel="icon" href="img/favicon.ico" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name=viewport content="width=device-width, initial-scale=1" />
-    
+    <meta name=viewport content="width=device-width, initial-scale=1" /> 
     <link href="{% static 'dist/semantic.min.css' %}" rel="stylesheet" />
     <link href="{% static 'plugins/ionicons/css/ionicons.min.css' %}" rel="stylesheet" />
     <link href="{% static 'css/main.css' %}" rel="stylesheet" />
@@ -19,14 +18,46 @@
     <link href="{% static 'css/chat-page.css' %}" rel="stylesheet" />
     <link rel="shortcut icon" href="{% static 'images/desk.jpg' %}" />
     
+    
+    <style type="text/css">
+           body {
+    background-color: white;
+  }
+
+  .ui.footer.segment {
+    margin: 5em 0em 0em;
+    padding: 5em 0em;
+  }
+  .ui.segment   {
+    margin-top: 0em;
+  }    
+    </style>
 </head>
 
 <body>
      
     <div id="contextWrap">
         <!--sidebar-->
-        <div class="ui sidebar vertical left menu overlay  borderless visible sidemenu inverted  black" style="-webkit-transition-duration: 0.1s; transition-duration: 0.1s;" data-color="grey">
+        <div class="ui sidebar vertical left menu overlay  borderless visible sidemenu inverted  dark" style="-webkit-transition-duration: 0.1s; transition-duration: 0.1s;" data-color="grey">
             <div class="ui accordion inverted">
+                <div class="title item"> 
+                    <h5 class="">欢迎你，{{ username }}</h5>
+                </div>
+                
+                <div class="ui fitted divider"></div>
+                <div class="title item">
+                    <a class="item labeled openbtn">
+                      <i class="ion-navicon-round icon"></i> 
+                      <span class="colhidden">隐藏菜单</span>
+                    </a>
+                    <a class="item labeled expandit" onclick="toggleFullScreen(document.body)">
+                      <i class="ion-arrow-expand icon"></i>
+                      <span class="colhidden">全屏显示</span>
+                    </a>
+                </div>
+                
+                <div class="ui fitted divider"></div>
+                
                 <div class="title item">
                   <i class="ion-speedometer titleIcon icon"></i>
                   <i class="dropdown icon"></i>1
@@ -47,7 +78,7 @@
                 
                 
                 <div class="title item">
-                    <i class="ion-ios-world titleIcon  icon"></i>
+                    <i class="edit titleIcon icon"></i>
                     <i class="dropdown icon"></i>3
                 </div>
                 <div class="content">
@@ -58,7 +89,7 @@
 
 
                 <div class="title item">
-                    <i class="ion-briefcase titleIcon icon"></i>
+                    <i class="protect titleIcon icon"></i>
                     <i class="dropdown icon"></i>4
                 </div>
                 <div class="content">
@@ -70,7 +101,7 @@
                 
                 
                 <div class="title item">
-                    <i class="ion-mouse titleIcon icon"></i>
+                    <i class="send titleIcon icon"></i>
                     <i class="dropdown icon"></i>5
                 </div>
                 <div class="content">
@@ -83,7 +114,7 @@
                 
                 
                 <div class="title item">
-                    <i class="ion-bowtie titleIcon icon"></i>
+                    <i class="book titleIcon icon"></i>
                     <i class="dropdown icon"></i>6
                 </div>
                 <div class="content">
@@ -96,7 +127,7 @@
                  </div>
 
                 <div class="title item">
-                    <i class="ion-paintbrush titleIcon icon"></i>
+                    <i class="photo titleIcon icon"></i>
                     <i class="dropdown icon"></i>7
                 </div>
                 <div class="content">
@@ -107,7 +138,7 @@
 
 
                 <div class="title item">
-                    <i class="ion-flame titleIcon icon"></i>
+                    <i class="lab titleIcon icon"></i>
                     <i class="dropdown icon"></i>8
                 </div>
                 <div class="content">
@@ -118,7 +149,7 @@
                 
                 
                 <div class="title item">
-                    <i class="ion-arrow-graph-up-right titleIcon icon"></i>
+                    <i class="power titleIcon icon"></i>
                     <i class="dropdown icon"></i>9
                 </div>
                 <div class="content">
@@ -128,8 +159,24 @@
                 </div>
             </div>
 
-
-
+<!-- 细菜单栏 -->
+            <div class="ui dropdown item displaynone scrolling">
+            <img src="{% static 'img/bg/1.png' %}"/>
+            </div>
+     
+            <div class="ui dropdown item displaynone scrolling">
+                <a class="openbtn">
+                  <i class=" ion-navicon-round icon"></i> 
+                </a>
+            </div>
+            <div class="ui dropdown item displaynone scrolling">
+                <a class="expandit" onclick="toggleFullScreen(document.body)">
+                  <i class="ion-arrow-expand icon"></i>
+                </a>
+                <div class="ui divider"></div>
+            </div>
+            
+      
             <div class="ui dropdown item displaynone scrolling">
                 <span>1</span>
                 <i class="ion-speedometer icon"></i>
@@ -155,7 +202,7 @@
             
             <div class="ui dropdown item displaynone scrolling">
                 <span>3</span>
-                <i class="ion-ios-lightbulb icon"></i>
+                <i class="edit icon"></i>
                 <div class="menu">
                     <div class="header">3</div>
                     <div class="ui divider"></div>
@@ -168,7 +215,7 @@
             
             <div class="ui dropdown item displaynone scrolling">
                 <span>4</span>
-                <i class="ion-ios-lightbulb icon"></i>
+                <i class="protect icon"></i>
                 <div class="menu">
                     <div class="header">4</div>
                     <div class="ui divider"></div>
@@ -182,7 +229,7 @@
             
             <div class="ui dropdown item displaynone scrolling">
                 <span>5</span>
-                <i class="ion-ios-lightbulb icon"></i>
+                <i class="send icon"></i>
                 <div class="menu">
                     <div class="header">5</div>
                     <div class="ui divider"></div>
@@ -197,7 +244,7 @@
             
             <div class="ui dropdown item displaynone scrolling">
                 <span>6</span>
-                <i class="ion-ios-lightbulb icon"></i>
+                <i class="book icon"></i>
                 <div class="menu">
                     <div class="header">6</div>
                     <div class="ui divider"></div>
@@ -212,7 +259,7 @@
             
             <div class="ui dropdown item displaynone scrolling">
                 <span>7</span>
-                <i class="ion-ios-lightbulb icon"></i>
+                <i class="photo icon"></i>
                 <div class="menu">
                     <div class="header">7</div>
                     <div class="ui divider"></div>
@@ -225,7 +272,7 @@
             
             <div class="ui dropdown item displaynone scrolling">
                 <span>8</span>
-                <i class="ion-ios-lightbulb icon"></i>
+                <i class="lab icon"></i>
                 <div class="menu">
                     <div class="header">8</div>
                     <div class="ui divider"></div>
@@ -235,10 +282,9 @@
                 </div>
             </div>
             
-            
             <div class="ui dropdown item displaynone scrolling">
                 <span>9</span>
-                <i class="ion-ios-lightbulb icon"></i>
+                <i class="power icon"></i>
                 <div class="menu">
                     <div class="header">9</div>
                     <div class="ui divider"></div>
@@ -249,96 +295,72 @@
             </div>
             
             <div class="ui divider"></div>
-            <a class="item" href="typography.html">
-                <i class="ion-printer icon"></i> <span class="colhidden">Typography</span>
+            <a class="item " href="#">
+                <i class="ion-printer icon"></i> 
+                <span class="colhidden">打印</span>
             </a>
-            <a class="item" href="document.html">
-                <i class="ion-code icon"></i> <span class="colhidden">Document</span>
+            <a class="item" href="#">
+                <i class="ion-code icon"></i> 
+                <span class="colhidden">文件</span>
             </a>
-            <div class="ui divider"></div>
+            
+            
            </div>
        
         <!--sidebar-->
-     
         <div class="pusher">
+        <div class="ui segment dark inverted" >
             <!--navbar-->
-            <div class="navslide navwrap">
-                <div class="ui menu icon borderless grid" data-color="inverted white">
-                    <a class="item labeled openbtn">
-                        <i class="ion-navicon-round big icon"></i>
-                    </a>
-                    <a class="item labeled expandit" onclick="toggleFullScreen(document.body)">
-                        <i class="ion-arrow-expand big icon"></i>
-                    </a>
-                    <div class="item ui ">
-                        <div class="ui icon input">
-                            <input type="text" placeholder="Search...">
-                            <i class="search icon"></i>
-                        </div>
-                    </div>
+            <div class="navslide navwrap " >
+                <div class="ui menu icon borderless grid dark inverted" >
+                  
+                  <h5 class="item ui header large yellow">科技事务综合管理平台</h5>
+                  
                     
-                    
-                    <div class="right menu ">
-                        <div class="ui dropdown item"><i class="big mail icon"></i><i class="dropdown icon"></i>
+                    <div class="right menu colhidden">
+                        <div class="ui compact dropdown item"><i class="large mail icon"></i><i class="dropdown icon"></i>
                             <div class="menu">
-                                <a class="item"><i class="big announcement icon"></i>系统消息</a>
-                                <a class="item"><i class="big comment icon"></i>未读信息</a>
-                                <a class="item"><i class="big open envelope icon"></i>已读信息</a>
-                                <a class="item"><i class="big lock icon"></i>私密信息</a>
+                                <a class="item"><i class="announcement icon"></i>系统消息</a>
+                                <a class="item"><i class="comment icon"></i>未读信息</a>
+                                <a class="item"><i class="open envelope icon"></i>已读信息</a>
+                                <a class="item"><i class="lock icon"></i>私密信息</a>
                                 <div class="ui divider"></div>
-                                <a class="item"><i class="big talk icon"></i>未读信息</a>
-                                <a class="item"><i class="big talk icon"></i>未读信息</a>
+                                <a class="item"><i class="add to calendar icon"></i>新建任务</a>
+                                <a class="item"><i class="calendar outline icon"></i>待办任务</a>
+                                <a class="item"><i class="checked calendar icon"></i>已办任务</a>
                             </div>
                         </div>
-                 
-                         
-                        <div class="ui dropdown item"><i class="big mail icon"></i><i class="dropdown icon "></i>
+           
+                   
+                        <div class="ui dropdown item"><i class="large user icon"></i><i class="dropdown icon "></i>
                             <div class="menu">
-                                <a class="item" href="mail.html">Inbox</a>
-                                <a class="item" href="profile.html">Profile</a>
-                                <a class="item" href="settings.html">Settings</a>
+                                <a class="item" href="#"><i class="calendar icon"></i>日历</a>
+                                <a class="item" href="#"><i class="call icon"></i>通信录</a>
                                 <div class="ui divider"></div>
-                                <a class="item">Need Help?</a>
-                                <a class="item" href="login.html">Sign Out</a>
+                                <a class="item"><i class="setting icon"></i>设置</a>
+                                <div class="ui divider"></div>
+                                <a class="item"><i class="id card icon"></i>个人信息</a>
+                                <a class="item" href="#"><i class="sign out icon"></i>登出</a>
+                                
                             </div>
                         </div>
-                       
+               </div>
 
                     </div>
+                </div>
                 </div>
             </div>
             <!--navbar-->
         
-        </div>
-    </div>
+   
     <!--jquery-->
     <script src=" ../static/js/jquery-2.1.4.min.js "></script>
     <!--jquery-->
     <!--semantic-->
     <script src=" ../static/dist/semantic.min.js "></script>
-    <!--semantic-->
-    <!--counter number-->
-    <script src=" ../static/plugins/counterup/jquery.counterup.min.js "></script>
-    <script src=" ../static/plugins/counterup/waypoints.min.js "></script>
-    <!--counter number-->
-    <!--flot chart-->
-    <script src=" ../static/plugins/flot/jquery.flot.js "></script>
-    <script src=" ../static/plugins/flot/jquery.flot.resize.min.js "></script>
-    <script src=" ../static/plugins/flot/jquery.flot.tooltip.min.js "></script>
-    <script src=" ../static/plugins/flot/curvedLines.js"></script>
-    <script src=" ../static/plugins/cookie/js.cookie.js "></script>
-    <!--flot chart-->
-    <!--chartjs chart-->
-    <script src=" ../static/plugins/chartjs/chart.min.js "></script>
-    <!--chartjs chart-->
-
+    <!--细边框菜单按钮-->
     <script src=" ../static/plugins/nicescrool/jquery.nicescroll.min.js "></script>
-
-    <script data-pace-options='{ "ajax": false }' src=" ../static/plugins/pacejs/pace.js "></script>
-
-    <script src="../static/plugins/chartist/chartist.min.js"></script>
-
-    <script src="../static/js/dashboard2.js"></script>
+    <!--粗边框菜单按钮-->
     <script src="../static/js/main.js"></script>
 </body>
 

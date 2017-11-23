@@ -14,7 +14,7 @@ from test.test_typing import Employee
 @login_required()
 @permission_required(perm=('can_program','can_manage'))
 def index(request):
-    return render(request, "framework/index.html", {})
+    return render(request, "framework/index.html", {'username':'name'})
 
 
 def login(request):
