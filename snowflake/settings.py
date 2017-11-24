@@ -74,10 +74,10 @@ WSGI_APPLICATION = 'snowflake.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'orcl',
+        'NAME': 'myorcl',
         'USER': 'mysite',
         'PASSWORD': 'mysite',
-        'HOST':'192.168.56.133',
+        'HOST':'',
         'PORT':'1521',
     }
 }

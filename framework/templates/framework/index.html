@@ -8,20 +8,19 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name=viewport content="width=device-width, initial-scale=1" /> 
-    <link href="{% static 'dist/semantic.min.css' %}" rel="stylesheet" />
-    <link href="{% static 'plugins/ionicons/css/ionicons.min.css' %}" rel="stylesheet" />
-    <link href="{% static 'css/main.css' %}" rel="stylesheet" />
-    <link href="{% static 'plugins/datepicker/css/bootstrap-datepicker.min.css' %}" rel="stylesheet" />
-    <link href="{% static 'plugins/weather-icons/css/weather-icons-wind.min.css' %}" rel="stylesheet" />
-    <link href="{% static 'plugins/weather-icons/css/weather-icons.min.css' %}" rel="stylesheet" />
-    <link href="{% static 'plugins/chartist/chartist.min.css' %}" rel="stylesheet" />
-    <link href="{% static 'css/chat-page.css' %}" rel="stylesheet" />
+    <link href="{% static 'stagb/css/semantic.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'stagb/plugins/ionicons/css/ionicons.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'stagb/css/main.css' %}" rel="stylesheet" />
+    <link href="{% static 'stagb/plugins/datepicker/css/bootstrap-datepicker.min.css' %}" rel="stylesheet" />
     <link rel="shortcut icon" href="{% static 'images/desk.jpg' %}" />
+
+
+    
     
     
     <style type="text/css">
            body {
-    background-color: white;
+    background-color: grey;
   }
 
   .ui.footer.segment {
@@ -37,14 +36,16 @@
 <body>
      
     <div id="contextWrap">
-        <!--sidebar-->
+        <!--粗菜单栏-->
         <div class="ui sidebar vertical left menu overlay  borderless visible sidemenu inverted  dark" style="-webkit-transition-duration: 0.1s; transition-duration: 0.1s;" data-color="grey">
             <div class="ui accordion inverted">
-                <div class="title item"> 
-                    <h5 class="">欢迎你，{{ username }}</h5>
+                <div class="item">
+                    <div class="ui segment dark inverted"> 
+                    <h5 class="ui center aligned header"> 欢迎你，{{ username }}</h5>
+                    </div>
                 </div>
                 
-                <div class="ui fitted divider"></div>
+
                 <div class="title item">
                     <a class="item labeled openbtn">
                       <i class="ion-navicon-round icon"></i> 
@@ -159,7 +160,7 @@
                 </div>
             </div>
 
-<!-- 细菜单栏 -->
+            <!-- 细菜单栏 -->
             <div class="ui dropdown item displaynone scrolling">
             <img src="{% static 'img/bg/1.png' %}"/>
             </div>
@@ -302,64 +303,55 @@
             <a class="item" href="#">
                 <i class="ion-code icon"></i> 
                 <span class="colhidden">文件</span>
-            </a>
-            
-            
-           </div>
+            </a>   
+        </div>
+    </div>
        
-        <!--sidebar-->
+       
+        <!--菜单栏-->
         <div class="pusher">
-        <div class="ui segment dark inverted" >
-            <!--navbar-->
             <div class="navslide navwrap " >
                 <div class="ui menu icon borderless grid dark inverted" >
-                  
-                  <h5 class="item ui header large yellow">科技事务综合管理平台</h5>
-                  
-                    
-                    <div class="right menu colhidden">
-                        <div class="ui compact dropdown item"><i class="large mail icon"></i><i class="dropdown icon"></i>
-                            <div class="menu">
-                                <a class="item"><i class="announcement icon"></i>系统消息</a>
-                                <a class="item"><i class="comment icon"></i>未读信息</a>
-                                <a class="item"><i class="open envelope icon"></i>已读信息</a>
-                                <a class="item"><i class="lock icon"></i>私密信息</a>
-                                <div class="ui divider"></div>
-                                <a class="item"><i class="add to calendar icon"></i>新建任务</a>
-                                <a class="item"><i class="calendar outline icon"></i>待办任务</a>
-                                <a class="item"><i class="checked calendar icon"></i>已办任务</a>
+                    <div class="ui container dark inverted" >
+                        <h5 class="item ui header large yellow">科技事务综合管理平台</h5>
+                        <div class="right menu colhidden">
+                            <div class="ui dropdown item"><i class="large mail icon"></i><i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <a class="item"><i class="announcement icon"></i>系统消息</a>
+                                    <a class="item"><i class="comment icon"></i>未读信息</a>
+                                    <a class="item"><i class="open envelope icon"></i>已读信息</a>
+                                    <a class="item"><i class="lock icon"></i>私密信息</a>
+                                    <div class="ui divider"></div>
+                                    <a class="item"><i class="add to calendar icon"></i>新建任务</a>
+                                    <a class="item"><i class="calendar outline icon"></i>待办任务</a>
+                                    <a class="item"><i class="checked calendar icon"></i>已办任务</a>
+                                </div>
                             </div>
-                        </div>
            
-                   
-                        <div class="ui dropdown item"><i class="large user icon"></i><i class="dropdown icon "></i>
-                            <div class="menu">
-                                <a class="item" href="#"><i class="calendar icon"></i>日历</a>
-                                <a class="item" href="#"><i class="call icon"></i>通信录</a>
-                                <div class="ui divider"></div>
-                                <a class="item"><i class="setting icon"></i>设置</a>
-                                <div class="ui divider"></div>
-                                <a class="item"><i class="id card icon"></i>个人信息</a>
-                                <a class="item" href="#"><i class="sign out icon"></i>登出</a>
-                                
-                            </div>
-                        </div>
+                            <div class="ui dropdown item"><i class="large user icon"></i><i class="dropdown icon "></i>
+                                <div class="menu">
+                                    <a class="item" href="#"><i class="calendar icon"></i>日历</a>
+                                    <a class="item" href="#"><i class="call icon"></i>通信录</a>
+                                    <div class="ui divider"></div>
+                                    <a class="item"><i class="setting icon"></i>设置</a>
+                                    <div class="ui divider"></div>
+                                    <a class="item"><i class="id card icon"></i>个人信息</a>
+                                    <a class="item" href="#"><i class="sign out icon"></i>登出</a>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
                </div>
-
-                    </div>
-                </div>
-                </div>
-            </div>
-            <!--navbar-->
-        
-   
+           </div>
+       </div>
+  
     <!--jquery-->
-    <script src=" ../static/js/jquery-2.1.4.min.js "></script>
+    <script src=" ../static/stagb/js/jquery-2.1.4.min.js "></script>
     <!--jquery-->
     <!--semantic-->
-    <script src=" ../static/dist/semantic.min.js "></script>
+    <script src=" ../static/stagb/css/semantic.min.js "></script>
     <!--细边框菜单按钮-->
-    <script src=" ../static/plugins/nicescrool/jquery.nicescroll.min.js "></script>
+    <script src=" ../static/stagb/plugins/nicescrool/jquery.nicescroll.min.js "></script>
     <!--粗边框菜单按钮-->
     <script src="../static/js/main.js"></script>
 </body>
