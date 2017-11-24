@@ -17,7 +17,7 @@ $(".swtalrt").on("click", function () {
     });
 });
 
-$("#11").on("click", function () {
+$(".swtalrt1").on("click", function () {
     swal("I Love Semantic!");
 });
 $(".swtalrt2").on("click", function () {

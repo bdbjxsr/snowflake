@@ -12,8 +12,11 @@
     <link href="{% static 'stagb/plugins/ionicons/css/ionicons.min.css' %}" rel="stylesheet" />
     <link href="{% static 'stagb/css/main.css' %}" rel="stylesheet" />
     <link rel="shortcut icon" href="{% static 'images/desk.jpg' %}" />
+    <link href="{% static 'stagb/plugins/pacejs/pace.css' %}" rel="stylesheet" />
     
+    <link href="{% static 'stagb/plugins/sweetalert2/sweetalert2.min.css' %}" rel="stylesheet" />
 
+    
     
     
     
@@ -316,7 +319,7 @@
                         <h5 class="item ui header large yellow">科技事务综合管理平台</h5>
                        
                         <div class="right menu colhidden">
-                         <button class="ui red button swtalrt1">A basic message</button>
+                         <button   class="ui red button swtalrt1">A basic message</button>
 
                             <div class="ui dropdown item"><i class="large mail icon"></i><i class="dropdown icon"></i>
                                 <div class="menu">
@@ -348,17 +351,21 @@
            </div>
            
        </div>
-       <!--jquery-->
+    <!--jquery--> 
     <script src=" {% static 'stagb/js/jquery-2.1.4.min.js' %} "></script>
-    <!--jquery-->
     <!--semantic-->
-    <script src=" {% static 'stagb/css/semantic.min.js ' %}"></script>
-    <!--细边框菜单按钮-->
-    <script src=" {% static 'stagb/plugins/nicescrool/jquery.nicescroll.min.js' %} "></script>
+    <script src=" {% static 'stagb/css/semantic.min.js' %}"></script>
+    
     <!--粗边框菜单按钮-->
+    <script src="../static/stagb/plugins/cookie/js.cookie.js"></script>
+    <script src=" {% static 'stagb/plugins/nicescrool/jquery.nicescroll.min.js' %} "></script>
+    <script data-pace-options='{ "ajax": false }' src="{% static 'stagb/plugins/pacejs/pace.js' %}"></script>
+    <script src="{% static 'stagb/plugins/sweetalert2/sweetalert2.min.js' %}"></script>
+    <script src="{% static 'stagb/plugins/sweetalert2/custom-alert.js' %}"></script>
+    
     <script src="{% static 'stagb/js/main.js' %}"></script>
-     
-
+    
+   
   
    
 </body>
