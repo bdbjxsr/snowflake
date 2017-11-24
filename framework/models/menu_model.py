@@ -8,13 +8,27 @@ from django.db.models import Q
 from framework.models.base_model import SnowModel
 from framework.models.auth_model import Permission
 from framework.models.base_model import SoftDeletionManager
+from framework import auth
 
 class MenuItemManager(SoftDeletionManager):
     def __init__(self, *args, **kwargs):
-        super(UserPositionManager, self).__init__(*args, **kwargs)
+        super(MenuItemManager, self).__init__(*args, **kwargs)
+        
+    def get_menu(self, request):
+        menu_tree = {}
+        for top_menu in self.get_queryset().filter(parent_menu=None):
+            if auth.has_perm(request=request, perm=top_menu.permission):
+                menu_tree[top_menu] = self._get_child_menu_tree(request=request, menu=top_menu)
+        return menu_tree
+    
+    def _get_child_menu_tree(self, request, menu):
+        menu_tree = {}
+        for child_menu in self.get_queryset().filter(parent_menu=menu):
+            if auth.has_perm(request=request, perm=child_menu.permission):
+                menu_tree[child_menu] = self._get_child_menu_tree(request=request, menu=child_menu)
+        return menu_tree
         
     def get_queryset(self):
-        now = datetime.now()
         return super(SoftDeletionManager, self).get_queryset().order_by("sort_seq")
 
 class MenuItem(SnowModel):
@@ -31,8 +45,8 @@ class MenuItem(SnowModel):
     #上级菜单（Department-ForeignKey）
     parent_menu = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
     
-    objects = SoftDeletionManager()
-    all_objects = SoftDeletionManager(alive_only=False)
+    objects = MenuItemManager()
+    all_objects = MenuItemManager(alive_only=False)
     
     def __str__(self):
         return self.name

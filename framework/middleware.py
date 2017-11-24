@@ -7,3 +7,5 @@ class Auth(MiddlewareMixin):
         if request.session.has_key('employee_id'):
             print(request.session['employee_id'])
             request.user = User.objects.get(employee_id = request.session['employee_id'])
+
+

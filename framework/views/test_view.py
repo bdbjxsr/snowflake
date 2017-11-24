@@ -8,8 +8,15 @@ from django.http import HttpResponseRedirect, HttpResponse
 
 from framework.models.auth_model import User, Department, Position, Permission, UserPosition
 from framework.models.menu_model import MenuItem
+from framework.decorator import login_required
 
+@login_required()
 def testMethodView(request, method):
+    if method == "testMenu":
+        mi = MenuItem.objects.get_menu(request)
+        for menu in mi.keys():
+            print(menu)
+        return HttpResponse(mi)
     return HttpResponse(method)
 
 def initDataView(request, method):
@@ -76,10 +83,10 @@ def initDataView(request, method):
         permission1 = Permission.objects.create(name="测试页面1权限", value="page_test_1", type="2")
         permission2 = Permission.objects.create(name="测试页面1权限", value="page_test_2", type="2")
         permission3 = Permission.objects.create(name="测试页面1权限", value="page_test_3", type="2")
-        mi1 = MenuItem(name="测试页面1", code="test_menu_1", sort_seq=0, url="www.baidu.com")
-        mi2 = MenuItem(name="测试页面2", code="test_menu_2", sort_seq=1, url="www.baidu.com", permission=permission1)
-        mi3 = MenuItem(name="测试页面3", code="test_menu_3", sort_seq=0, url="www.baidu.com", permission=permission2)
-        mi4 = MenuItem(name="测试页面4", code="test_menu_4", sort_seq=1, url="www.baidu.com", permission=permission3)
+        mi1 = MenuItem.objects.create(name="测试页面1", code="test_menu_1", sort_seq=0, url="www.baidu.com")
+        mi2 = MenuItem.objects.create(name="测试页面2", code="test_menu_2", sort_seq=1, url="www.baidu.com", permission=permission1, parent_menu=mi1)
+        mi3 = MenuItem.objects.create(name="测试页面3", code="test_menu_3", sort_seq=0, url="www.baidu.com", permission=permission2, parent_menu=mi1)
+        mi4 = MenuItem.objects.create(name="测试页面4", code="test_menu_4", sort_seq=1, url="www.baidu.com", permission=permission3)
         
         position1 = Position.objects.get(code="pt_manange1")
         position2 = Position.objects.get(code="pt_dev2")
