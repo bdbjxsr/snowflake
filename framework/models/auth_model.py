@@ -10,7 +10,6 @@ from django.db import models
 from django.db.models import Q
 
 from framework.models.base_model import SnowModel
-from framework.managers.UserPositionManager import UserPositionManager
 
 
 class Department(SnowModel):
@@ -157,7 +156,7 @@ class Permission(SnowModel):
     #权限名称描述
     name = models.CharField(max_length=256, verbose_name='权限名称')
     #权限值，作为判断依据，不允许重复
-    value = models.CharField(max_length=256, unique=True ,verbose_name='权限值')
+    value = models.CharField(max_length=256, unique=True, verbose_name='权限值')
     #权限类型
     type = models.CharField(max_length=256, verbose_name='权限类型')
     #所属岗位（Position-ManyToManyField）
