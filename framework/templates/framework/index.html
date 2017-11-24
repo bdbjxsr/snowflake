@@ -4,7 +4,6 @@
 
 <head>
     <title>科技事务综合管理平台首页</title>
-    <link rel="icon" href="img/favicon.ico" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name=viewport content="width=device-width, initial-scale=1" /> 
@@ -12,9 +11,7 @@
     <link href="{% static 'stagb/plugins/ionicons/css/ionicons.min.css' %}" rel="stylesheet" />
     <link href="{% static 'stagb/css/main.css' %}" rel="stylesheet" />
     <link rel="shortcut icon" href="{% static 'images/desk.jpg' %}" />
-    <link href="{% static 'stagb/plugins/pacejs/pace.css' %}" rel="stylesheet" />
-    
-    <link href="{% static 'stagb/plugins/sweetalert2/sweetalert2.min.css' %}" rel="stylesheet" />
+
 
     
     
@@ -22,16 +19,11 @@
     
     <style type="text/css">
            body {
-    background-color: grey;
+    background-color: #F0F0F0;
+    width:100%;
   }
 
-  .ui.footer.segment {
-    margin: 5em 0em 0em;
-    padding: 5em 0em;
-  }
-  .ui.segment   {
-    margin-top: 0em;
-  }    
+   
     </style>
 </head>
 
@@ -39,10 +31,10 @@
      
     <div id="contextWrap">
         <!--粗菜单栏-->
-        <div class="ui sidebar vertical left menu overlay  borderless visible sidemenu inverted  dark" style="-webkit-transition-duration: 0.1s; transition-duration: 0.1s;" data-color="grey">
+        <div class="ui sidebar vertical left menu overlay  borderless visible sidemenu inverted  grey" style="-webkit-transition-duration: 0.1s; transition-duration: 0.1s;" data-color="grey">
             <div class="ui accordion inverted ">
                 <div class="item">
-                    <div class="ui segment dark inverted"> 
+                    <div class="ui segment grey inverted"> 
                     <h5 class="ui center aligned header"> 欢迎你，{{ username }}</h5>
                     </div>
                 </div>
@@ -314,12 +306,12 @@
         <!--菜单栏-->
         <div class="pusher">
             <div class="navslide navwrap " >
-                <div class="ui menu icon borderless grid dark inverted" >
-                    <div class="ui container dark inverted" >
+                <div class="ui menu icon borderless grid" data-color="inverted white" >
+                    
                         <h5 class="item ui header large yellow">科技事务综合管理平台</h5>
                        
                         <div class="right menu colhidden">
-                         <button   class="ui red button swtalrt1">A basic message</button>
+                    
 
                             <div class="ui dropdown item"><i class="large mail icon"></i><i class="dropdown icon"></i>
                                 <div class="menu">
@@ -346,23 +338,22 @@
                                </div>
                            </div>
                        </div>
-                   </div>
+                  
                </div>
            </div>
            
        </div>
     <!--jquery--> 
     <script src=" {% static 'stagb/js/jquery-2.1.4.min.js' %} "></script>
+    <!--jquery-->
     <!--semantic-->
     <script src=" {% static 'stagb/css/semantic.min.js' %}"></script>
-    
-    <!--粗边框菜单按钮-->
+    <!--semantic-->
     <script src="../static/stagb/plugins/cookie/js.cookie.js"></script>
+   
     <script src=" {% static 'stagb/plugins/nicescrool/jquery.nicescroll.min.js' %} "></script>
+
     <script data-pace-options='{ "ajax": false }' src="{% static 'stagb/plugins/pacejs/pace.js' %}"></script>
-    <script src="{% static 'stagb/plugins/sweetalert2/sweetalert2.min.js' %}"></script>
-    <script src="{% static 'stagb/plugins/sweetalert2/custom-alert.js' %}"></script>
-    
     <script src="{% static 'stagb/js/main.js' %}"></script>
     
    
