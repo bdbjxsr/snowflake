@@ -1,0 +1,11 @@
+清除数据库脚本，按顺序执行
+delete from framework_userposition;
+
+delete from framework_user_superiors;
+delete from FRAMEWORK_PERMISSION_POSITIONS;
+delete from framework_permission;
+delete from framework_user;
+delete from framework_position;
+delete from framework_department;
+
+delete from framework_menuitem;
