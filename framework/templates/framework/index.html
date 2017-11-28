@@ -1,7 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 	<head>
 	    <title>科技事务综合管理平台首页</title>
 	    <meta charset="utf-8" />
@@ -10,22 +9,14 @@
 	    <link href="{% static 'stagb/css/semantic.min.css' %}" rel="stylesheet" />
 	    <link href="{% static 'stagb/plugins/ionicons/css/ionicons.min.css' %}" rel="stylesheet" />
 	    <link href="{% static 'stagb/css/main.css' %}" rel="stylesheet" />
-	    <link rel="shortcut icon" href="{% static 'images/logo.mini.png' %}" />
-	
-	
-	    
-	    
-	    
-	    
+	    <link rel="shortcut icon" href="{% static 'images/logo.mini.png' %}" />	    
 	    <style type="text/css">
 	        body {
 	    	  background-color: #F0F0F0;
 	    	  width:100%;
 	        }
-	  
-	      
-	   
 	    </style>
+
 	</head>
 
 	<body>
@@ -52,7 +43,7 @@
 		               </div>		
 		               <div class="content">
 		               	   {% for key,value in value.items %} 
-		                   <a class="item" href="{{ key.url }}">{{ key.name }}</a>
+		                   <a class="item" href="#" onclick="menuClick('{{ key.code }}','{{ key.name }}','{{ key.url }}')">{{ key.name }}</a>
 		                   {% endfor %}
 		               </div>
 		            {% endfor %}
@@ -69,7 +60,7 @@
 	                    </div>
 	                    <div class="ui divider"></div>
 	                    {% for key,value in value.items %} 
-                   		<a class="item" href="{{ key.url }}">
+                   		<a class="item" href="#" onclick="menuClick('{{ key.code }}','{{ key.name }}','{{ key.url }}')">
                    		{{ key.name }}
                    		</a>
 	                    {% endfor %}
@@ -117,68 +108,17 @@
                        </div>
                     </div>
                    
-               	    <div class="ui grey inverted menu " style="margin-top:-12px">
-               	     
-                        <a class="red item" data-tab="eight">首页<i class="close link icon"></i></a>
-                        <a class="red item" data-tab="nine">修改页<i class="close link icon"></i></a>
-                        <a class="red item active" data-tab="ten">测试页面<i class="close link icon"></i></a>
-                  
+               	    <div class="ui grey inverted menu " style="margin-top:-12px" id="tab-title-main">               	     
+                        <a class="red item" data-tab="eight">首页<i class="close link icon"></i></a>                  
                     </div>
 	            </div>
             	<!--navbar-->
 
             	<!--maincontent 主页面-->
-	            <div class="mainWrap navslide">
-	                <div class="ui left aligned padded grid stackable">
-						<div class="row">
-		                    <div class="sixteen wide tablet computer column">		                    
-		                        
-		                        	
-	                                
-	                                <div class="ui tab " data-tab="eight">
-										<div class="ui very padded centered grid">
-                 <div class="column">
-                    <form class="ui form" action="{% url 'framework:login' %}" method='post' enctype="multipart/form-data">
-                      {% csrf_token %}
-                       <div class="field">
-                          <div class="ui large left icon centered input">
-                             <i class="user icon"></i>
-                             <input type="text" name="employee_id" placeholder="员工号" value="{{ employee_id }}">
-                          </div> 
-                       </div>
-                       <div class="ui hidden divider"></div>
-                       <div class="field">
-                          <div class="ui large left icon input">
-                             <i class="lock icon"></i>
-                             <input type="password" name="password" placeholder="密码" value="{{ password }}">
-                          </div>
-                       </div>
-                          
-                       <div class="ui hidden divider"></div>
-                       <div class="ui divider"></div>
-                       <button type="submit" class="ui large fluid yellow inverted submit button" >登 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</button>
-                          
-                    </form>
-                    <div class="ui hidden divider"></div>
-                    {% if error %}
-                    <div class="ui error tiny message">
-                      <i class="large warning sign icon"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;员工号不存在或密码错误！
+	            <div class="mainWrap navslide" id="tab-content-main">
+                    <div class="ui tab active" data-tab="eight">
+						<iframe scrolling="yes" frameborder="0" src="/framework/test/testPage/" width="100%"></iframe>
                     </div>
-                    {% endif %}
-               </div>
-            </div>
-	                                </div>
-	                                <div class="ui tab" data-tab="nine">
-	                                	2222
-	                                </div>
-	                                <div class="ui tab " data-tab="ten">
-										333
-	                                </div>
-                            		
-		                        
-		                    </div>
-		                </div>	                	
-	                </div>
 	            </div>
 	            <!--maincontent-->
         	</div>
@@ -196,9 +136,10 @@
 	
 	    <script data-pace-options='{ "ajax": false }' src="{% static 'stagb/plugins/pacejs/pace.js' %}"></script>
 	    <script src="{% static 'stagb/js/main.js' %}"></script>
+	    <script src="{% static 'js/main.js' %}"></script>
 	    <script>
         //Tab page tab trigger functions
-        $(".menu .item").tab();
+        $(".menu .item").tab();        
 	    </script>
 
 	</body>

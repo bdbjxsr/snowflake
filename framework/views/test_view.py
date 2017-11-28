@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from framework.models.auth_model import User, Department, Position, Permission, UserPosition
 from framework.models.menu_model import MenuItem
 from framework.decorator import login_required
+from django.shortcuts import render
 
 @login_required()
 def testMethodView(request, method):
@@ -18,6 +19,12 @@ def testMethodView(request, method):
             print(menu)
         return HttpResponse(mi)
     return HttpResponse(method)
+
+def testPageView(request, method):
+    if method == "2":
+        return render(request, "framework/test2.html", {})
+    else:
+        return render(request, "framework/test.html", {})
 
 def initDataView(request, method):
     if not method or method=="":

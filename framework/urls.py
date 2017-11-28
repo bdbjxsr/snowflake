@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^login/$', auth_view.login, name='login'),
     url(r'^logout/$', auth_view.logout, name='logout'),
     url(r'^permission/denied/$', auth_view.permissionDenied, name='permissionDenied'),
-    url(r'^test/initData/(?P<method>.*)$', test_view.initDataView, name='initDataView'),
-    url(r'^test/testMethod/(?P<method>.*)$', test_view.testMethodView, name='testMethodView'),
+    url(r'^test/testPage/(?P<method>.*)$', test_view.testPageView, name='testPage'),
+    url(r'^test/initData/(?P<method>.*)$', test_view.initDataView, name='initData'),
+    url(r'^test/testMethod/(?P<method>.*)$', test_view.testMethodView, name='testMethod'),
 ]
