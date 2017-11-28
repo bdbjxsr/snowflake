@@ -1,4 +1,4 @@
-﻿/*================================================================================
+/*================================================================================
 Item Name: Stagb - Sermantic UI Responsive Admin Template
 Version: 1.0
 Author: telatkaya_
@@ -180,7 +180,6 @@ html.ios body {
 }
 .logo {
     height: 57px;
-    background-color: #fff!important;
     -webkit-transition-duration: 0.1s;
     transition-duration: 0.1s;
 }

@@ -9,12 +9,14 @@ from django.shortcuts import render
 from framework.decorator import login_required, permission_required
 from framework import auth
 from framework.models.auth_model import User
-from test.test_typing import Employee
+from framework.models.menu_model import MenuItem
 
 @login_required()
 @permission_required(perm=('can_program','can_manage'))
 def index(request):
-    return render(request, "framework/index.html", {'username':request.user.username})
+    mi = MenuItem.objects.get_menu(request)
+
+    return render(request, "framework/index.html", {'username':request.user.username, 'menu':mi})
 
 
 def login(request):

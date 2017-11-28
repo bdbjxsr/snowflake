@@ -38,6 +38,8 @@ class MenuItem(SnowModel):
     code = models.CharField(max_length=256, unique=True, verbose_name='菜单代码')
     #菜单地址
     url = models.CharField(max_length=256, verbose_name='菜单地址')
+    #图标
+    icon = models.CharField(max_length=256, default='ion-briefcase titleIcon icon', verbose_name='菜单地址')
     #排序
     sort_seq = models.IntegerField(verbose_name='菜单地址')
     #关联访问菜单权限
