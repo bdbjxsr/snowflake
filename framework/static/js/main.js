@@ -2,7 +2,6 @@
   * 增加标签页
   */
 function menuClick(tabCode, tabName, tabUrl) {
-	alert("1111");
 	var options={
 		tabMainName:"tab-title-main",
 		tabContentMainName:"tab-content-main",
@@ -26,32 +25,35 @@ function addTab(options) {
      if(exists){
          $("#tab_title_"+options.tabCode).click();
      } else {
-         $("#"+options.tabMainName).append('<a class="red item" data-tab="eight">'+options.tabName+'<i class="close link icon"></i></a>');
+         $("#"+options.tabMainName).append('<a class="red item" id="tab_title_'+options.tabCode+'" data-tab="tab_content_'+options.tabCode+'">'+options.tabName+'<i class="close link icon" onclick="closeTab(this);"></i></a>');
          var content = '';
          if(options.content){
              content = option.content;
          } else {
              content = '<iframe src="' + options.tabUrl + '" width="100%" frameborder="no" border="0" marginwidth="0" onload="setIframeHeight(this)"></iframe>';
          }
-         $("#"+options.tabContentMainName).append('<div id="tab_content_'+options.tabCode+'" role="tabpanel" class="tab-pane" id="'+options.tabCode+'">'+content+'</div>');
-         $("#tab_a_"+options.tabCode).click();
+         
+         $("#"+options.tabContentMainName).append('<div class="ui tab" id="tab_content_'+options.tabCode+'" data-tab="tab_content_'+options.tabCode+'">'+content+'</div>');
+         $(".menu .item").tab();   
+         $("#tab_title_"+options.tabCode).click();
      }
 };
  /**
   * 关闭标签页
   * @param button
   */
-function closeTab (button) {    
-	var li_id = $(button).parent().parent().attr('id');
-	var id = li_id.replace("tab_li_","");
-	 
+function closeTab(button) {    
+	var tab_title_id = $(button).parent().attr('id');
+	var id = tab_title_id.replace("tab_title_","");
+
 	//如果关闭的是当前激活的TAB，激活他的前一个TAB
-	if ($("li.active").attr('id') == li_id) {
-	    $("li.active").prev().find("a").click();
-			}
+	if ($("#" + tab_title_id).hasClass("active")) {
+		alert("111");
+	    $("#" + tab_title_id).prev().click();
+	}
  
-			//关闭TAB
-	$("#" + li_id).remove();
+	//关闭TAB
+	$("#" + tab_title_id).remove();
 	$("#tab_content_" + id).remove();
 };
  
@@ -62,7 +64,7 @@ function closeTab (button) {
  * @returns {Boolean}
  */
 function checkTabIsExists(tabMainName, tabCode){
-    var tab = $("#"+tabMainName+" > #tab_li_"+tabCode);
+    var tab = $("#"+tabMainName+" > #tab_title_"+tabCode);
     //console.log(tab.length)
     return tab.length > 0;
 }
