@@ -18,11 +18,12 @@
 	    
 	    
 	    <style type="text/css">
-	           body {
-	    			background-color: #F0F0F0;
-	    			width:100%;
-	  }
-	
+	        body {
+	    	  background-color: #F0F0F0;
+	    	  width:100%;
+	        }
+	  
+	      
 	   
 	    </style>
 	</head>
@@ -36,7 +37,7 @@
 		</div>
 	    <div id="contextWrap">
 	        <!--左侧菜单栏-->
-	        <div class="ui sidebar vertical left menu overlay borderless visible sidemenu inverted  grey" style="-webkit-transition-duration: 0.1s; transition-duration: 0.1s;" data-color="grey">
+	        <div class="ui sidebar vertical left menu overlay borderless visible sidemenu inverted  darkpurpleli" style="-webkit-transition-duration: 0.1s; transition-duration: 0.1s;" data-color="darkpurpleli">
 	            <a class="item logo" href="">
 					<img src="{% static 'images/logo.png' %}" alt="stagblogo" />
 					<img src="{% static 'images/logo.mini.png' %}" alt="stagblogo" class="displaynone" />
@@ -81,7 +82,7 @@
 		    <div class="pusher">
 	            <!--navbar  上部导航栏-->
 	            <div class="navslide navwrap">
-					<div class="ui menu icon borderless grid inverted grey" data-color="inverted white" >
+					<div class="ui menu icon borderless grid inverted darkpurpleli" data-color="inverted white" >
 						<a class="item labeled openbtn">
 			              <i class="ion-navicon-round icon"></i> <span class="colhidden">隐藏菜单</span>
 			            </a>
@@ -115,10 +116,13 @@
                            </div>
                        </div>
                     </div>
-               	    <div class="ui secondary menu left inverted lightdarkli">
-                        <a class="item" data-tab="eight">首页<i class="close link icon"></i></a>
-                        <a class="item" data-tab="nine">修改页<i class="close link icon"></i></a>
-                        <a class="item active" data-tab="ten">测试页面<i class="close link icon"></i></a>
+                   
+               	    <div class="ui grey inverted menu " style="margin-top:-12px">
+               	     
+                        <a class="red item" data-tab="eight">首页<i class="close link icon"></i></a>
+                        <a class="red item" data-tab="nine">修改页<i class="close link icon"></i></a>
+                        <a class="red item active" data-tab="ten">测试页面<i class="close link icon"></i></a>
+                  
                     </div>
 	            </div>
             	<!--navbar-->
@@ -127,37 +131,51 @@
 	            <div class="mainWrap navslide">
 	                <div class="ui left aligned padded grid stackable">
 						<div class="row">
-		                    <div class="six wide tablet computer column">		                    
-		                        <div class="ui segments">
-		                        	<div class="ui segment">
+		                    <div class="sixteen wide tablet computer column">		                    
+		                        
+		                        	
 	                                
-	                                <div class="ui tab segment" data-tab="eight">
-										111
+	                                <div class="ui tab " data-tab="eight">
+										<div class="ui very padded centered grid">
+                 <div class="column">
+                    <form class="ui form" action="{% url 'framework:login' %}" method='post' enctype="multipart/form-data">
+                      {% csrf_token %}
+                       <div class="field">
+                          <div class="ui large left icon centered input">
+                             <i class="user icon"></i>
+                             <input type="text" name="employee_id" placeholder="员工号" value="{{ employee_id }}">
+                          </div> 
+                       </div>
+                       <div class="ui hidden divider"></div>
+                       <div class="field">
+                          <div class="ui large left icon input">
+                             <i class="lock icon"></i>
+                             <input type="password" name="password" placeholder="密码" value="{{ password }}">
+                          </div>
+                       </div>
+                          
+                       <div class="ui hidden divider"></div>
+                       <div class="ui divider"></div>
+                       <button type="submit" class="ui large fluid yellow inverted submit button" >登 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+                          
+                    </form>
+                    <div class="ui hidden divider"></div>
+                    {% if error %}
+                    <div class="ui error tiny message">
+                      <i class="large warning sign icon"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;员工号不存在或密码错误！
+                    </div>
+                    {% endif %}
+               </div>
+            </div>
 	                                </div>
-	                                <div class="ui tab segment" data-tab="nine">
+	                                <div class="ui tab" data-tab="nine">
 	                                	2222
 	                                </div>
-	                                <div class="ui tab segment active" data-tab="ten">
+	                                <div class="ui tab " data-tab="ten">
 										333
 	                                </div>
-                            		</div>
-		                        </div>
-		                    </div>
-		                    <div class="ten wide tablet computer column">		                    
-		                        <div class="ui segments">
-		                        	<div class="ui segment">
-	                                
-	                                <div class="ui tab segment" data-tab="eight">
-										111
-	                                </div>
-	                                <div class="ui tab segment" data-tab="nine">
-	                                	2222
-	                                </div>
-	                                <div class="ui tab segment active" data-tab="ten">
-										333
-	                                </div>
-                            		</div>
-		                        </div>
+                            		
+		                        
 		                    </div>
 		                </div>	                	
 	                </div>
