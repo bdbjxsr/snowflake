@@ -59,7 +59,8 @@
         添加新的页面
     </div>
     <div class="content">
-    	<form class="ui form" action="{% url 'framework:pageManageAdd' %}" method='post' enctype="multipart/form-data">
+    	<form class="ui form" id="page_manage_modal_form">
+    	{% csrf_token %}
         <div class="two fields">
             <div class="field">
                 <label>页面名称</label>
@@ -81,27 +82,47 @@
             </div>
             <div class="field">
                 <label>图标</label>
-                <input placeholder="图标" name="icon" type="text">
+                <div class="ui floating labeled icon dropdown button" id="dropdown_icon">
+                	<input type="hidden" name="icon">
+					  <i class="filter icon"></i>
+					  <span class="text">选择图标</span>
+					  <div class="menu">
+					    <div class="item" data-value='attention icon'>
+					      <i class="attention icon"></i>
+					      Important
+					    </div>
+					    <div class="item" data-value='comment icon'>
+					      <i class="comment icon"></i>
+					      Announcement
+					    </div>
+					    <div class="item" data-value='conversation icon'>
+					      <i class="conversation icon"></i>
+					      Discussion
+					    </div>
+					  </div>
+					</div>
             </div>
         </div>
         <div class="field">
             <label>权限</label>
-            <input placeholder="权限" name="permission" type="text">
-        </div>
-        <div class="field">
-            <div class="actions">    
-		        <div class="ui ok button" type="submit">
-		        <i class="right checkmark icon"></i>
-		            	提交            
-		        </div>
-		        <div class="ui cancel button">
-		        <i class="right remove icon"></i>
-		            	取消
-		        </div>
-    		</div>
+			<div class="ui search selection dropdown" id="permision_json">
+			  <input type="hidden" name="permission">
+		      <div class="default text">选择权限</div>
+		      <i class="dropdown icon"></i>
+		    </div>
         </div>
         <div class="ui error message"></div>
 		</form>
+        <div class="actions">    
+        <div class="ui ok button" id="submit">
+        <i class="right checkmark icon"></i>
+            	提交            
+        </div>
+        <div class="ui cancel button">
+        <i class="right remove icon"></i>
+            	取消
+        </div>
+  		</div>
 	</div>
 </div>
 
@@ -121,6 +142,26 @@ $(".ui.modal.long").modal({
 	duration:			400, 
 	inverted: 			true,
     blurring: 			false
+});
+$('#dropdown_icon').dropdown();
+$('#permision_json').dropdown({
+    apiSettings: {
+        // this url parses query server side and returns filtered results
+        url: "{% url 'framework:queryPermissionJson' %}"
+      },
+      saveRemoteData:false,
+});
+$("#submit").click(function(){
+	 $.ajax({    
+         type:'post',        
+         url:"{% url 'framework:pageManageAdd' %}",    
+         data:$("#page_manage_modal_form").serialize(),    
+         cache:false,    
+         dataType:'json',    
+         success:function(data){   
+             alert(data);
+         }
+	 });
 });
 $('#page_manage_add').on('click', function(){
 	$("#page_manage_modal").modal("show");
