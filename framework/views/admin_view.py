@@ -14,3 +14,15 @@ from framework.models.menu_model import MenuItem
 def pageManageView(request):
     menuItems = MenuItem.objects.all()
     return render(request, "framework/page_manage.html", {'menuItems':menuItems}) 
+
+def pageManageAddView(request):
+    if request.method =='POST':
+        data = request.POST
+        name = data.get('name')
+        code = data.get('code')
+        url = data.get('url')        
+        sort_seq = data.get('sort_seq')
+        icon = data.get('icon')
+        permission = data.get('permission')
+        
+        mi2 = MenuItem.objects.create(name=name, code=code, icon =icon, sort_seq=sort_seq, url=url, permission=permission)

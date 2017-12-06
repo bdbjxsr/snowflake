@@ -54,12 +54,12 @@
 </div>
 </div>
 <!-- 新增modal -->
-<div class="ui long test modal" id="page_modal_new">
+<div class="ui long test modal" id="page_manage_modal">
     <div class="header">
         添加新的页面
     </div>
     <div class="content">
-    	<form class="ui form">
+    	<form class="ui form" action="{% url 'framework:pageManageAdd' %}" method='post' enctype="multipart/form-data">
         <div class="two fields">
             <div class="field">
                 <label>页面名称</label>
@@ -67,41 +67,42 @@
             </div>
             <div class="field">
                 <label>程序代号</label>
-                <input placeholder="程序代号" name="name" type="text">
+                <input placeholder="程序代号" name="code" type="text">
             </div>
         </div>
         <div class="field">
          	<label>页面链接地址</label>
-            <input placeholder="页面链接地址" name="name" type="text">
+            <input placeholder="页面链接地址" name="url" type="text">
         </div>
         <div class="two fields">
             <div class="field">
                 <label>排序</label>
-                <input placeholder="排序" name="username" type="text">
+                <input placeholder="排序" name="sort_seq" type="text">
             </div>
             <div class="field">
                 <label>图标</label>
-                <input placeholder="图标" name="username" type="text">
+                <input placeholder="图标" name="icon" type="text">
             </div>
         </div>
         <div class="field">
             <label>权限</label>
-            <input placeholder="权限" name="username" type="text">
+            <input placeholder="权限" name="permission" type="text">
+        </div>
+        <div class="field">
+            <div class="actions">    
+		        <div class="ui ok button" type="submit">
+		        <i class="right checkmark icon"></i>
+		            	提交            
+		        </div>
+		        <div class="ui cancel button">
+		        <i class="right remove icon"></i>
+		            	取消
+		        </div>
+    		</div>
         </div>
         <div class="ui error message"></div>
-</form>
-        <div class="actions">    
-	        <div class="ui ok button">
-	        <i class="right checkmark icon"></i>
-	            	提交            
-	        </div>
-	        <div class="ui cancel button">
-	        <i class="right remove icon"></i>
-	            	取消
-	        </div>
-    	</div>
-</div>
-
+		</form>
+	</div>
 </div>
 
 <script src="{% static 'stagb/plugins/datatable/jquery.dataTables.js' %}"></script>
@@ -122,7 +123,7 @@ $(".ui.modal.long").modal({
     blurring: 			false
 });
 $('#page_manage_add').on('click', function(){
-	$("#page_modal_new").modal("show");
+	$("#page_manage_modal").modal("show");
 });
 </script>
 
