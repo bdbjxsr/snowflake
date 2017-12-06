@@ -31,11 +31,11 @@
 		</div>
 	    <div id="contextWrap">
 	        <!--左侧菜单栏-->
-	        <div class="ui sidebar vertical left menu overlay borderless visible sidemenu inverted  darkpurpleli" style="-webkit-transition-duration: 0.1s; transition-duration: 0.1s;" data-color="darkpurpleli">
-	            <a class="item logo" href="">
+	        <div class="ui visible sidebar vertical left borderless menu overlay sidemenu inverted darkpurpleli" style="-webkit-transition-duration: 0.1s; transition-duration: 0.1s;" data-color="darkpurpleli">
+	           <a class="item logo" href="">
 					<img src="{% static 'images/logo.png' %}" alt="stagblogo" />
 					<img src="{% static 'images/logo.mini.png' %}" alt="stagblogo" class="displaynone" />
-		        </a>	
+		        </a>
 	            <div class="ui fitted divider"></div>	
 		         <!-- 粗单栏 -->
 	            <div class="ui accordion inverted ">
@@ -43,7 +43,7 @@
 			            <div class="title item">
 			                   <i class="{{ key.icon }} titleIcon icon"></i>
 			                   <i class="dropdown icon"></i>{{ key.name }}
-		               </div>		
+		               </div>	
 		               <div class="content">
 		               	   {% for key,value in value.items %} 
 		                   <a class="item" href="#" onclick="menuClick('{{ key.code }}','{{ key.name }}','{{ key.url }}')">{{ key.name }}</a>
@@ -54,14 +54,14 @@
 	
 	            <!-- 细菜单栏 -->
 	            {% for key,value in menu.items %} 
-	            <div class="ui dropdown item displaynone scrolling">
+	            <div class="ui scrolling dropdown item displaynone ">
 	                <span>{{ key.name }}</span>
 	                <i class="{{ key.icon }} icon"></i>
 	                <div class="menu">
 	                    <div class="header">
 	                    {{ key.name }}
 	                    </div>
-	                    <div class="ui divider"></div>
+	                    <div class="ui fitted divider"></div>
 	                    {% for key,value in value.items %} 
                    		<a class="item" href="#" onclick="menuClick('{{ key.code }}','{{ key.name }}','{{ key.url }}')">
                    		{{ key.name }}
@@ -77,13 +77,12 @@
 	            <!--navbar  上部导航栏-->
 	            <div class="navslide navwrap">
 					<div class="ui menu icon borderless grid inverted darkpurpleli" data-color="inverted white" >
-						<a class="item labeled openbtn">
-			              <i class="ion-navicon-round icon"></i> <span class="colhidden">隐藏菜单</span>
+						<a class="item labeled openbtn" data-title="Home" data-content="This is Horizontal Flip Effect Popup">
+			              <i class="large ion-navicon-round icon" data-title="提示" data-content="点击切换导航菜单栏"></i>
 			            </a>
 			            <a class="item labeled expandit" onclick="toggleFullScreen(document.body)">
-			              <i class="ion-arrow-expand icon"></i>
-			              <span class="colhidden">全屏显示</span>
-			            </a>	                     
+			              <i class="large ion-arrow-expand icon" data-title="提示" data-content="点击切换全屏显示" ></i>
+			            </a>                
                         <div class="right menu colhidden">
                             <div class="ui dropdown item"><i class="large mail icon"></i><i class="dropdown icon"></i>
                                 <div class="menu">
@@ -110,36 +109,42 @@
                            </div>
                        </div>
                     </div>
-                   
-               	    <div class="ui grey inverted menu " style="margin-top:-12px" id="tab-title-main">               	     
-                        <a class="red item " data-tab="eight">首页</a>                  
+                    <div class="ui greyli inverted menu stackable" style="margin-top:-12px" id="tab-title-main">               	     
+                        <a class="orange item" id="maintab" data-tab="maintab">首页 </a>              
                     </div>
 	            </div>
             	<!--navbar-->
 
             	<!--maincontent 主页面-->
 	            <div class="mainWrap navslide" id="tab-content-main">
-                    <div class="ui tab active" data-tab="eight" height="300">
-						<iframe scrolling="yes" frameborder="0" src="/framework/test/testPage/" width="100%"></iframe>
-                    </div>
+                    <div class="ui tab" data-tab="maintab" height="300"></div>
 	            </div>
 	            <!--maincontent-->
         	</div>
 		</div>
 	    
 	    <!--jquery--> 
-	    <script src=" {% static 'stagb/js/jquery-2.1.4.min.js' %} "></script>
+	    <script src="{% static 'stagb/js/jquery-2.1.4.min.js' %}"></script>
+	    <script src="{% static 'stagb/plugins/adress/jquery.address.js' %}"></script>
 	    <!--jquery-->
 	    <!--semantic-->
-	    <script src=" {% static 'stagb/css/semantic.min.js' %}"></script>
+	    <script src="{% static 'stagb/css/semantic.min.js' %}"></script>	     
 	    <!--semantic-->
-	    <script src="../static/stagb/plugins/cookie/js.cookie.js"></script>
+	    <script src="{% static 'stagb/plugins/cookie/js.cookie.js' %}"></script>
+	    
 	   
-	    <script src=" {% static 'stagb/plugins/nicescrool/jquery.nicescroll.min.js' %} "></script>
+	    <script src=" {% static 'stagb/plugins/nicescrool/jquery.nicescroll.min.js' %}"></script>
 	
 	    <script data-pace-options='{ "ajax": false }' src="{% static 'stagb/plugins/pacejs/pace.js' %}"></script>
 	    <script src="{% static 'stagb/js/main.js' %}"></script>
 	    <script src="{% static 'js/main.js' %}"></script>
+	    <script>
+            $('#maintab').tab({		              
+                cache	: true,
+                auto    : true,
+                path    : '/framework/test/testPage/'
+            });
+	    </script>
 
 	</body>
 

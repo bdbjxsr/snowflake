@@ -984,14 +984,15 @@ blockquote p {
 .sidemenu {
     background: #333c44;
 }
+
+.sidemenu .item {
+    color: rgba(224, 219, 219, 0.9);
+}
 html {
     font-size: 12px!important;
 }
 a.item.transition {
     margin-left: 30px;
-}
-.sidemenu .item {
-    color: rgba(224, 219, 219, 0.9);
 }
 .ui.left.sidebar,
 .ui.right.sidebar {

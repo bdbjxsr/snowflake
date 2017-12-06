@@ -1,0 +1,128 @@
+{% load static %}
+<div class="ui equal width left aligned padded grid stackable">
+	<div class="row">
+	<div class="eight wide column">
+            <button class="ui labeled icon button greenli" id="page_manage_add">
+                <i class="right add square icon"></i>新增
+            </button>
+            <button class="ui labeled icon button yellowli">
+                <i class="right write icon"></i>修改
+            </button>
+            <button class="ui labeled icon button redli">
+                <i class="right remove icon"></i>删除
+            </button>
+	</div>
+	<div class="eight wide column"></div>
+	</div>
+	<div class="row">
+    <div class="sixteen wide column">
+        <div class="ui segments">
+            <div class="ui segment">
+                <h5 class="ui header">
+                    Datatable
+                </h5>
+            </div>
+            <div class="ui segment">
+                <table id="data_table" class="ui compact selectable striped celled table tablet stackable" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>菜单名字</th>
+                            <th>代码</th>
+                            <th>链接</th>
+                            <th>图标</th>
+                            <th>排序</th>
+                            <th>权限</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+	                    {% for menu in menuItems %} 
+	                        <tr>
+	                            <td>{{ menu.name }}</td>
+	                            <td>{{ menu.code }}</td>
+	                            <td>{{ menu.url }}</td>
+	                            <td>{{ menu.icon }}</td>
+	                            <td>{{ menu.sort_seq }}</td>
+	                            <td>{{ menu.permission }}</td>
+	                        </tr>
+			            {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- 新增modal -->
+<div class="ui long test modal" id="page_modal_new">
+    <div class="header">
+        添加新的页面
+    </div>
+    <div class="content">
+    	<form class="ui form">
+        <div class="two fields">
+            <div class="field">
+                <label>页面名称</label>
+                <input placeholder="页面名称" name="name" type="text">
+            </div>
+            <div class="field">
+                <label>程序代号</label>
+                <input placeholder="程序代号" name="name" type="text">
+            </div>
+        </div>
+        <div class="field">
+         	<label>页面链接地址</label>
+            <input placeholder="页面链接地址" name="name" type="text">
+        </div>
+        <div class="two fields">
+            <div class="field">
+                <label>排序</label>
+                <input placeholder="排序" name="username" type="text">
+            </div>
+            <div class="field">
+                <label>图标</label>
+                <input placeholder="图标" name="username" type="text">
+            </div>
+        </div>
+        <div class="field">
+            <label>权限</label>
+            <input placeholder="权限" name="username" type="text">
+        </div>
+        <div class="ui error message"></div>
+</form>
+        <div class="actions">    
+	        <div class="ui ok button">
+	        <i class="right checkmark icon"></i>
+	            	提交            
+	        </div>
+	        <div class="ui cancel button">
+	        <i class="right remove icon"></i>
+	            	取消
+	        </div>
+    	</div>
+</div>
+
+</div>
+
+<script src="{% static 'stagb/plugins/datatable/jquery.dataTables.js' %}"></script>
+<script src="{% static 'stagb/js/customjs/custom-datatable.js' %}"></script>
+<script>
+$(".ui.modal.long").modal({
+	detachable:			true,
+		autofocus:			false,
+	observeChanges:		false,		
+	allowMultiple:		false,
+	keyboardShortcuts:	false,
+		offset:				1000,
+		context:			"body",
+	closable:			false,
+		transition:			"scale",
+	duration:			400, 
+	inverted: 			true,
+    blurring: 			false
+});
+$('#page_manage_add').on('click', function(){
+	$("#page_modal_new").modal("show");
+});
+</script>
+

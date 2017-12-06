@@ -1,25 +1,146 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-<meta charset="utf-8">
-<meta name="renderer" content="webkit|ie-comp|ie-stand">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-<title>H-ui.admin v3.1</title>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <title>科技事务综合管理平台首页</title>
+	    <meta charset="utf-8" />
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	    <meta name=viewport content="width=device-width, initial-scale=1" /> 
+	    <link href="{% static 'stagb/css/semantic.min.css' %}" rel="stylesheet" />
+	    <link href="{% static 'stagb/plugins/ionicons/css/ionicons.min.css' %}" rel="stylesheet" />
+	    <link href="{% static 'stagb/css/main.css' %}" rel="stylesheet" />
+	    <link rel="shortcut icon" href="{% static 'images/logo.mini.png' %}" />	    
 	    <style type="text/css">
-		.Hui-article{position: absolute;top:34px;bottom:0;left:0; right:0;overflow:auto;z-index:1}
-		.show_iframe{ position:absolute; top:0; right:0; left:0; bottom:0;}
-		.show_iframe iframe {position: absolute;bottom: 0;height: 100%;width: 100%}
+	        body {
+	    	  background-color: #F0F0F0;
+	    	  width:100%;
+	        }
+	        iframe {
+	        	height:500px;
+	        }
 	    </style>
-</head>
-<body>
 
-<div id="iframe_box" class="Hui-article">
-		<div class="show_iframe" style="display: block;">
-			<iframe scrolling="yes" frameborder="0" src="/framework/test/testPage/"></iframe>
-	</div>
-</div>
+	</head>
 
-</body>
+	<body>
+		<div class="pace  pace-inactive">
+			<div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+				<div class="pace-progress-inner"></div>
+			</div>
+			<div class="pace-activity"></div>
+		</div>
+	    <div id="menuLeft">
+	        <!--左侧菜单栏-->
+	        <div class="ui sidebar vertical left menu overlay borderless visible sidemenu inverted  darkpurpleli" style="-webkit-transition-duration: 0.1s; transition-duration: 0.1s;" data-color="darkpurpleli">
+	            <a class="item logo" href="">
+					<img src="{% static 'images/logo.png' %}" alt="stagblogo" />
+					<img src="{% static 'images/logo.mini.png' %}" alt="stagblogo" class="displaynone" />
+		        </a>	
+	            <div class="ui fitted divider"></div>	
+		         <!-- 粗单栏 -->
+	            <div class="ui accordion inverted ">
+		            {% for key,value in menu.items %} 
+			            <div class="title item">
+			                   <i class="{{ key.icon }} titleIcon icon"></i>
+			                   <i class="dropdown icon"></i>{{ key.name }}
+		               </div>		
+		               <div class="content">
+		               	   {% for key,value in value.items %} 
+		                   <a class="item" onclick="menuClick('{{ key.code }}','{{ key.name }}','{{ key.url }}')">{{ key.name }}</a>
+		                   {% endfor %}
+		               </div>
+		            {% endfor %}
+	            </div>
+	
+	            <!-- 细菜单栏 -->
+	            {% for key,value in menu.items %} 
+	            <div class="ui dropdown item displaynone scrolling">
+	                <span>{{ key.name }}</span>
+	                <i class="{{ key.icon }} icon"></i>
+	                <div class="menu">
+	                    <div class="header">
+	                    {{ key.name }}
+	                    </div>
+	                    <div class="ui divider"></div>
+	                    {% for key,value in value.items %} 
+                   		<a class="item" onclick="menuClick('{{ key.code }}','{{ key.name }}','{{ key.url }}')">
+                   		{{ key.name }}
+                   		</a>
+	                    {% endfor %}
+	                </div>
+	            </div>
+	            {% endfor %}
+	    	</div>
+		    <a class="item hiddenCollapse displaynone"></a>
+		       
+		    <div class="naviTop">
+	            <!--navbar  上部导航栏-->
+	            <div class="navslide navwrap">
+					<div class="ui menu icon borderless grid inverted darkpurpleli" data-color="inverted white" >
+						<a class="item labeled openbtn">
+			              <i class="ion-navicon-round icon"></i> <span class="colhidden">隐藏菜单</span>
+			            </a>
+			            <a class="item labeled expandit" onclick="toggleFullScreen(document.body)">
+			              <i class="ion-arrow-expand icon"></i>
+			              <span class="colhidden">全屏显示</span>
+			            </a>	                     
+                        <div class="right menu colhidden">
+                            <div class="ui dropdown item"><i class="large mail icon"></i><i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <a class="item"><i class="announcement icon"></i>系统消息</a>
+                                    <a class="item"><i class="comment icon"></i>未读信息</a>
+                                    <a class="item"><i class="open envelope icon"></i>已读信息</a>
+                                    <a class="item"><i class="lock icon"></i>私密信息</a>
+                                    <div class="ui divider"></div>
+                                    <a class="item"><i class="add to calendar icon"></i>新建任务</a>
+                                    <a class="item"><i class="calendar outline icon"></i>待办任务</a>
+                                    <a class="item"><i class="checked calendar icon"></i>已办任务</a>
+                                </div>
+                            </div>           
+                            <div class="ui dropdown item"><i class="large user icon"></i><i class="dropdown icon "></i>
+                                <div class="menu">
+                                    <a class="item" href="#"><i class="calendar icon"></i>日历</a>
+                                    <a class="item" href="#"><i class="call icon"></i>通信录</a>
+                                    <div class="ui divider"></div>
+                                    <a class="item"><i class="setting icon"></i>设置</a>
+                                    <div class="ui divider"></div>
+                                    <a class="item"><i class="id card icon"></i>个人信息</a>
+                                    <a class="item" href="#"><i class="sign out icon"></i>登出</a>
+                               </div>
+                           </div>
+                       </div>
+                    </div>
+                   
+               	    <div class="ui grey inverted menu " style="margin-top:-12px" id="tab-title-main">               	     
+                        <a class="red item " data-tab="eight">首页</a>                  
+                    </div>
+	            </div>
+            	<!--navbar-->
+
+            	<!--maincontent 主页面-->
+	            <div class="mainWrap navslide" id="tab-content-main">
+                    <div class="ui tab active" data-tab="eight" height="300">
+						<iframe scrolling="yes" frameborder="0" src="/framework/test/testPage/" width="100%"></iframe>
+                    </div>
+	            </div>
+	            <!--maincontent-->
+        	</div>
+		</div>
+	    
+	    <!--jquery--> 
+	    <script src=" {% static 'stagb/js/jquery-2.1.4.min.js' %} "></script>
+	    <!--jquery-->
+	    <!--semantic-->
+	    <script src=" {% static 'stagb/css/semantic.min.js' %}"></script>
+	    <!--semantic-->
+	    <script src="../static/stagb/plugins/cookie/js.cookie.js"></script>
+	   
+	    <script src=" {% static 'stagb/plugins/nicescrool/jquery.nicescroll.min.js' %} "></script>
+	
+	    <script data-pace-options='{ "ajax": false }' src="{% static 'stagb/plugins/pacejs/pace.js' %}"></script>
+	    <script src="{% static 'stagb/js/main.js' %}"></script>
+	    <script src="{% static 'js/main.js' %}"></script>
+
+	</body>
+
 </html>

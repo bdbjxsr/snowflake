@@ -25,16 +25,26 @@ function addTab(options) {
      if(exists){
          $("#tab_title_"+options.tabCode).click();
      } else {
-         $("#"+options.tabMainName).append('<a class="red item" id="tab_title_'+options.tabCode+'" data-tab="tab_content_'+options.tabCode+'">'+options.tabName+'<i class="close link icon" onclick="closeTab(this);"></i></a>');
+         $("#"+options.tabMainName).append('<a class="orange item" id="tab_title_'+options.tabCode+'" data-tab="'+options.tabCode+'">'+options.tabName+'<i class="remove icon" onclick="closeTab(this);"></i></a>');
          var content = '';
-         if(options.content){
+/*         if(options.content){
              content = option.content;
          } else {
              content = '<iframe src="' + options.tabUrl + '" width="100%" frameborder="no" border="0" marginwidth="0" onload="setIframeHeight(this)"></iframe>';
-         }
+         }*/
          
-         $("#"+options.tabContentMainName).append('<div class="ui tab" id="tab_content_'+options.tabCode+'" data-tab="tab_content_'+options.tabCode+'">'+content+'</div>');
-         $(".menu .item").tab();   
+         $("#"+options.tabContentMainName).append('<div class="ui tab" id="tab_content_'+options.tabCode+'" data-tab="'+options.tabCode+'">'+content+'</div>');
+         $("#tab_title_"+options.tabCode).tab({		              
+             cache	 : true,
+             auto    : true,
+             cacheType : "DOM",
+             path    : options.tabUrl
+         });
+	    $("#tab_title_"+options.tabCode+" .icon").hover(function(){
+	        $(this).addClass("circle");
+	    },function(){
+	    	$(this).removeClass("circle");
+	    });
          $("#tab_title_"+options.tabCode).click();
      }
 };
@@ -48,7 +58,6 @@ function closeTab(button) {
 
 	//如果关闭的是当前激活的TAB，激活他的前一个TAB
 	if ($("#" + tab_title_id).hasClass("active")) {
-		alert("111");
 	    $("#" + tab_title_id).prev().click();
 	}
  
@@ -68,4 +77,6 @@ function checkTabIsExists(tabMainName, tabCode){
     //console.log(tab.length)
     return tab.length > 0;
 }
+
+
 

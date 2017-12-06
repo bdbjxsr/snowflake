@@ -1,4 +1,4 @@
-清除数据库脚本，按顺序执行
+--清除数据库脚本，按顺序执行
 delete from framework_userposition;
 
 delete from framework_user_superiors;

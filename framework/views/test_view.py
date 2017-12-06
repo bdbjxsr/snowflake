@@ -21,10 +21,10 @@ def testMethodView(request, method):
     return HttpResponse(method)
 
 def testPageView(request, method):
-    if method == "2":
-        return render(request, "framework/test2.html", {})
-    else:
+    if method == "two":
         return render(request, "framework/test.html", {})
+    else:
+        return HttpResponse(method)
 
 def initDataView(request, method):
     if not method or method=="":
