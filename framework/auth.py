@@ -4,11 +4,11 @@
 #时间：    20171114
 from django.utils import six
 
-from framework.models.auth_model import User
+from framework.models.auth_model import UserModel
 
 def authenticate(employee_id, password):
     try:
-        user = User.objects.get(employee_id=employee_id)
+        user = UserModel.objects.get(employee_id=employee_id)
         if user.check_password(password):
             return user
     except :

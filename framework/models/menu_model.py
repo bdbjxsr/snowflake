@@ -6,7 +6,7 @@ from django.db import models
 from django.db.models import Q
 
 from framework.models.base_model import SnowModel
-from framework.models.auth_model import Permission
+from framework.models.auth_model import PermissionModel
 from framework.models.base_model import SoftDeletionManager
 from framework import auth
 
@@ -31,7 +31,7 @@ class MenuItemManager(SoftDeletionManager):
     def get_queryset(self):
         return super(SoftDeletionManager, self).get_queryset().order_by("sort_seq")
 
-class MenuItem(SnowModel):
+class MenuItemModel(SnowModel):
     #菜单名称
     name = models.CharField(max_length=256, verbose_name='菜单名称')
     #菜单名称
@@ -43,7 +43,7 @@ class MenuItem(SnowModel):
     #排序
     sort_seq = models.IntegerField(verbose_name='菜单地址')
     #关联访问菜单权限
-    permission = models.ForeignKey(Permission, null=True, blank=True, on_delete=models.CASCADE)
+    permission = models.ForeignKey(PermissionModel, null=True, blank=True, on_delete=models.CASCADE)
     #上级菜单（Department-ForeignKey）
     parent_menu = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
     

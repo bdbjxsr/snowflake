@@ -134,6 +134,6 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 STATIC_URL = '/static/'
 
-LOGIN_URL = '/framework/login/'
+LOGIN_URL = '/framework/auth/login/'
 
-REDIRECT_URL = '/framework/permission/denied/'
+REDIRECT_URL = '/framework/auth/permission/denied/'

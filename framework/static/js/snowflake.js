@@ -27,18 +27,16 @@ function addTab(options) {
      } else {
          $("#"+options.tabMainName).append('<a class="orange item" id="tab_title_'+options.tabCode+'" data-tab="'+options.tabCode+'">'+options.tabName+'<i class="remove icon" onclick="closeTab(this);"></i></a>');
          var content = '';
-/*         if(options.content){
+         if(options.content){
              content = option.content;
          } else {
-             content = '<iframe src="options.tabUrl" frameborder="0" style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;position:absolute;top:0px;left:0px;right:0px;bottom:0px"></iframe>';
-         }*/
+             content = '<iframe src="'+options.tabUrl+'" frameborder="0" style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;position:absolute;top:0px;left:0px;right:0px;bottom:0px"></iframe>';
+         }
          
          $("#"+options.tabContentMainName).append('<div class="ui tab" id="tab_content_'+options.tabCode+'" data-tab="'+options.tabCode+'">'+content+'</div>');
          $("#tab_title_"+options.tabCode).tab({		              
              cache	 : true,
-             auto    : true,
              cacheType : "DOM",
-             path    : options.tabUrl
          });
 	    $("#tab_title_"+options.tabCode+" .icon").hover(function(){
 	        $(this).addClass("circle");

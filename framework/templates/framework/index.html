@@ -16,7 +16,11 @@
 	    	  width:100%;
 	        }
 	        iframe {
-	        	height:500px;
+	        	display: block;       /* iframes are inline by default */
+			    background: #000;
+			    border: none;         /* Reset default border */
+			    height: 100vh;        /* Viewport-relative units */
+			    width: 100%;
 	        }
 	    </style>
 
@@ -76,7 +80,7 @@
 		    <div class="pusher">
 	            <!--navbar  上部导航栏-->
 	            <div class="navslide navwrap">
-					<div class="ui menu icon borderless grid inverted darkpurpleli" data-color="inverted white" >
+					<div class="ui menu icon borderless grid inverted darkpurpleli marginnone" data-color="inverted white">
 						<a class="item labeled openbtn" data-title="Home" data-content="This is Horizontal Flip Effect Popup">
 			              <i class="large ion-navicon-round icon" data-title="提示" data-content="点击切换导航菜单栏"></i>
 			            </a>
@@ -109,15 +113,17 @@
                            </div>
                        </div>
                     </div>
-                    <div class="ui greyli inverted menu stackable" style="margin-top:-12px" id="tab-title-main">               	     
-                        <a class="orange item" id="maintab" data-tab="maintab">首页 </a>              
+                    <div class="ui greyli inverted menu stackable marginnone"  id="tab-title-main">               	     
+                        <a class="active orange item" id="maintab" data-tab="maintab">首页 </a>              
                     </div>
 	            </div>
             	<!--navbar-->
 
             	<!--maincontent 主页面-->
 	            <div class="mainWrap navslide" id="tab-content-main">
-                    <div class="ui tab" data-tab="maintab" height="300"></div>
+                    <div class="active ui tab" data-tab="maintab">
+                    	<iframe src="http://www.qq.com" frameborder="0" style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;position:absolute;top:0px;left:0px;right:0px;bottom:0px"></iframe>
+                    </div>
 	            </div>
 	            <!--maincontent-->
         	</div>
@@ -131,19 +137,14 @@
 	    <script src="{% static 'stagb/css/semantic.min.js' %}"></script>	     
 	    <!--semantic-->
 	    <script src="{% static 'stagb/plugins/cookie/js.cookie.js' %}"></script>
-	    
 	   
 	    <script src=" {% static 'stagb/plugins/nicescrool/jquery.nicescroll.min.js' %}"></script>
 	
 	    <script data-pace-options='{ "ajax": false }' src="{% static 'stagb/plugins/pacejs/pace.js' %}"></script>
 	    <script src="{% static 'stagb/js/main.js' %}"></script>
-	    <script src="{% static 'js/main.js' %}"></script>
+	    <script src="{% static 'js/snowflake.js' %}"></script>
 	    <script>
-            $('#maintab').tab({		              
-                cache	: true,
-                auto    : true,
-                path    : '/framework/test/testPage/'
-            });
+            $('#maintab').tab();
 	    </script>
 
 	</body>

@@ -1,4 +1,8 @@
---清除数据库脚本，按顺序执行
+drop user mysite cascade;
+Create user mysite identified by mysite default tablespace mysite_TABLESPACE;
+Grant resource, create table, connect, recovery_catalog_owner to mysite;
+
+
 delete from framework_userposition;
 
 delete from framework_user_superiors;

@@ -3,7 +3,6 @@
 #作者：    万良卿
 #时间：    20171114
 from django.db import models
-from framework.models import auth_model
 
 #软删除model
 class SoftDeletionQuerySet(models.QuerySet):

@@ -5,23 +5,30 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
+from django.views import View
+from django.utils.decorators import method_decorator
 
 from framework.decorator import login_required, permission_required
 from framework import auth
-from framework.models.auth_model import User
-from framework.models.menu_model import MenuItem
+from framework.models.auth_model import UserModel
+from framework.models.menu_model import MenuItemModel
 
-@login_required()
-@permission_required(perm=('can_program','can_manage'))
-def index(request):
-    mi = MenuItem.objects.get_menu(request)
+class IndexView(View):    
+    def get(self, request, *args, **kwargs):
+        mi = MenuItemModel.objects.get_menu(request)    
+        return render(request, "framework/index.html", {'username':request.user.username, 'menu':mi})
+    
+    @method_decorator(login_required())
+    @method_decorator(permission_required(perm=('can_program','can_manage')))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
-    return render(request, "framework/index.html", {'username':request.user.username, 'menu':mi})
-
-
-def login(request):
-    error = ''
-    if request.method =='POST':
+class LoginView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, "framework/login.html")
+    
+    def post(self, request, *args, **kwargs):
+        error = ''
         data = request.POST
         employee_id = data.get('employee_id')
         password = data.get('password')
@@ -34,13 +41,13 @@ def login(request):
             password = ''
             error = True
             return render(request, 'framework/login.html', {'employee_id':employee_id,'error':error})
-    return render(request, "framework/login.html", {'error':error})
 
 
-
-def logout(request):
-    auth.logout(request)
-    return render(request, "framework/logout.html", {})
-
-def permissionDenied(request):
-    return render(request, "framework/permission_denied.html", {})
+class LogoutView(View):
+    def get(self, request, *args, **kwargs):
+        auth.logout(request)
+        return render(request, "framework/logout.html", {})
+    
+class DenyPermissionView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, "framework/permission_denied.html", {})

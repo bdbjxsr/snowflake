@@ -171,6 +171,9 @@ html.ios body {
 .displayblock {
     display: block !important;
 }
+.marginnone {
+    margin: 0px !important;
+}
 .sidebar .item i {
     font-size: 20px;
     margin-top: -5px !important;

@@ -1,0 +1,92 @@
+{% load static %}
+<link href="{% static 'css/snowflake.css' %}" rel="stylesheet" />
+<div class="ui equal width left aligned padded grid stackable">
+	<div class="row">
+       <div class="sixteen wide tablet four wide computer column">
+           <div class="ui segments">
+               <div class="ui segment">
+                   <h5 class="ui header">
+                   1111
+                   </h5>
+               </div>
+               <div class="ui basic segment" id="Example1">
+	               	<div class="ui list">
+					  <div class="item">
+					    <i class="folder icon open"></i>
+					    <div class="content">
+					    	<div class="header">src</div>
+						    <div class="ui list displaynone">
+						    	<div class="item">				  		
+							  		<i class="folder icon open"></i>							  		
+							  		<div class="content ">
+							  			<div class="header">222</div>
+										<div class="ui list">
+										<div class="item">
+								          <i class="file icon"></i>
+								          <div class="content">
+								            <div class="header">theme.config</div>
+								          </div>
+								        </div>
+										</div>
+							  		</div>
+						   		</div>
+						   	</div>
+					    </div>
+					   </div>
+					 </div>
+   			   </div>
+			</div>
+		</div>
+
+        <div class="sixteen wide tablet twelve wide computer column">
+            <div class="ui segments">
+                <div class="ui segment">
+                    <h5 class="ui header">
+                        Styled Accordion
+                    </h5>
+                </div>
+                <div class="ui segment basic">
+	                <div class="ui accordion inverted">
+	
+	                <a class="title item">
+	                    <i class="ion-speedometer titleIcon icon"></i> Dashboard <i class="dropdown icon"></i>
+	                </a>
+	                <div class="content">
+	                    <a class="item" href="index.html">
+	                    Dashboard v1
+	                </a>
+	                </div>
+	
+	                <div class="title item">
+	                    <i class="ion-ios-lightbulb titleIcon icon"></i>
+	
+	                    <i class="dropdown icon"></i> Apps
+	                </div>
+	                <div class="content">
+	                    <a class="item" href="inbox.html">
+	                    Inbox
+	                </a>
+	
+	                    <a class="item" href="chat.html">
+	                    Chat
+	                </a>
+	
+	                    <a class="item" href="filter.html">
+	                    Filter
+	                </a>
+	                    <a class="item" href="todo.html">
+	                    Todo
+	                </a>
+	                </div>
+	                </div>
+                
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+	$('.ui.accordion').accordion({
+		exclusive:false
+	    });
+</script>
