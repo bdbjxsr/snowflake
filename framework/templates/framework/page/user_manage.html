@@ -1,0 +1,244 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    	<meta charset="utf-8" />
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	    
+	    <link href="{% static 'stagb/css/semantic.min.css' %}" rel="stylesheet" />
+	    <link href="{% static 'stagb/plugins/ionicons/css/ionicons.min.css' %}" rel="stylesheet" />
+	    
+	    <link href="{% static 'stagb/css/main.css' %}" rel="stylesheet" />
+	    <link href="{% static 'stagb/plugins/pacejs/pace.css' %}" rel="stylesheet" />
+	    
+    </head>
+    <body>
+    <div class="ui segment">
+        <div class="ui equal width left aligned padded grid stackable"> 
+            <div class="row">
+	            <div class="nine wide column">
+	                <form class="ui form" id="user_manage_modal_form" action="{% url 'framework:user_search' %}" method='post' enctype="multipart/form-data">
+    	                {% csrf_token %}
+	                
+                        <div class="three fields">
+                            
+                            <div class="field">
+                                <div class="ui search selection dropdown" id="1super_department_json">
+			                        <input type="hidden" name="find_sp_dprt" >
+		                            <div class="default text">选择一级部</div>
+		                            <i class="dropdown icon"></i>
+		                        </div> 
+			                </div>
+                            <div class="field">
+                                <div class="ui search selection dropdown" id="1department_json">
+			                        <input type="hidden" name="find_dprt" >
+		                            <div class="default text">选择二级部</div>
+		                            <i class="dropdown icon"></i>
+		                        </div> 
+			                </div>
+                            <div class="field">
+                                <div class="ui compact selection dropdown" >
+                                    <input type="hidden" name="find_superior" data-filtered="filtered" value="{{ find_superior }}">
+                                    <i class="dropdown icon"></i>
+                                    <div class="default text">选择部门负责人</div>
+                                    <div class="menu" data-filtered="filtered">
+                                        <div class="item" data-value="none" data-filtered="filtered">&nbsp;</div>
+                                        {% for sperior in speriors %}
+                                        <div class="item" data-value="{{ sperior.employee_id }}" data-filtered="filtered">{{ sperior.username }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+
+                        <div class="three fields">
+                            <div class="field">
+                                <div class="ui compact focus input" >
+                                    <b>员工号：</b>
+                                    <input placeholder="输入员工号" name="find_employee_id" type="text" value="{{ find_employee_id }}" >
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui compact focus input" >
+                                    <b>姓名：</b>
+                                    <input placeholder="输入姓名" name="find_username" type="text" value="{{ find_username }}" >
+                                </div> 
+                            </div>
+                            <div class="field">
+                                <button class="ui labeled icon blue basic right floated button " id="user_manage_search" style="width:50%;">
+                                    <i class="right search icon"></i>搜索
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="five wide column">
+	            </div>
+	            <div class="two wide column">
+                    <button class="ui labeled icon button greenli" id="user_manage_add">
+                       <i class="right add square icon"></i>新增
+                    </button>
+                </div>
+	        </div>
+	        <div class="row">
+               <div class="sixteen wide column">
+                  
+                     <table id="data_table" class="ui compact selectable striped celled table tablet stackable display" cellspacing="0" width="100%">
+                        <thead>
+                          <tr>
+                            <th>员工号</th>
+                            <th>姓名</th>
+                            <th>二级部</th>
+                            <th>一级部</th>
+                            <th>部门负责人</th>
+                            <th>操作</th>
+                         </tr>
+                       </thead>
+                     
+                       <tbody>
+	                      {% for user in user %} 
+	                        <tr>
+	                            <td>{{ user.employee_id }}</td>
+	                            <td>{{ user.username }}</td>
+	                            <td>{{ user.department }}</td>
+	                            <td>{{ user.department.super_department.name }}</td>
+	                            <td>{% for superior in user.superiors.all %}
+	                            
+	                            {{ superior.username }} &nbsp;
+	                            
+	                            {% endfor %}</td>
+	                            <td>
+                                   <button class="ui labeled icon button teal" data-toggle="modal"  data-target="#myModal1">
+                                   <i class="right write icon"></i>修改
+                                   </button>                      
+                                   <button class="ui labeled icon button redli" data-toggle="modal"  data-target="#myModal1">
+                                   <i class="right remove icon"></i>删除
+                                   </button>
+	                            </td>
+	                        </tr>
+			            {% endfor %}
+                      </tbody>
+                </table>
+              </div>
+           </div>
+         </div>
+     </div>
+<!-- 新增modal -->
+<div class="ui small modal" id="add_modal">
+    <div class="header">
+        添加新用户
+    </div>
+    <div class="content">
+        <form class="ui form" id="user_manage_modal_form" action="{% url 'framework:user_add' %}" method='post' enctype="multipart/form-data">
+    	{% csrf_token %}
+            <div class="two fields">
+                <div class="field">
+                    <label>员工号</label>
+                    <input placeholder="员工号" name="add_employee_id" type="text">
+                
+                </div>
+                <div class="field">
+                    <label>姓名</label>
+                    <input placeholder="姓名" name="add_username" type="text">
+                </div>
+            </div>
+       
+            <div class="three fields">
+                <div class="field">
+                    <label>所属一级部</label>
+                    <div class="ui search selection dropdown" id="2super_department_json">
+			            <input type="hidden" name="add_sp_dprt" >
+		                <div class="default text">选择一级部</div>
+		             <i class="dropdown icon"></i>
+		            </div> 
+			    </div>
+                <div class="field">
+                    <label>所属二级部</label>
+                    <div class="ui search selection dropdown" id="2department_json">
+			            <input type="hidden" name="add_dprt">
+		                <div class="default text">选择二级部</div>
+		            <i class="dropdown icon"></i>
+		            </div> 
+			    </div>
+                <div class="field">
+                    <label>部门负责人</label>
+			        <div class="ui search selection dropdown" id="superiors_json">
+			            <input type="hidden" name="add_superiors">
+		                <div class="default text">选择部门负责人</div>
+		            <i class="dropdown icon"></i>
+		            </div>
+                </div>
+            </div>
+          
+            <div class="ui error message"></div>
+            <div class="ui hidden divider"></div>
+       
+            <div class="actions">
+                <button class="ui labeled icon right floated ok button blueli" type="submit" id="add_submit">
+                    <i class="right checkmark icon"></i>提交            
+                </button>
+                <button class="ui labeled icon right floated button redli" type="button" id="add_close" data-dismiss="add_modal">
+                    <i class="right close icon"></i>取消
+                </button>
+            </div>
+		</form>
+    </div>
+</div>
+
+
+     <script src="{% static 'stagb/js/jquery-2.1.4.min.js' %}"></script>
+     <script src="{% static 'stagb/css/semantic.min.js' %}"></script>
+     <script src="{% static 'stagb/plugins/cookie/js.cookie.js' %}"></script>
+	 <script src=" {% static 'stagb/plugins/nicescrool/jquery.nicescroll.min.js' %}"></script>
+	
+	 <script data-pace-options='{ "ajax": false }' src="{% static 'stagb/plugins/pacejs/pace.js' %}"></script>
+     <script src="{% static 'stagb/plugins/datatable/jquery.dataTables.js' %}"></script>
+     
+     
+     <script src="{% static 'stagb/js/main.js' %}"></script>
+     <script src="{% static 'js/user_manage.js' %}"></script>
+     <script>
+
+
+
+
+     $(".ui.modal.small").modal({
+    		detachable:			true,
+    			autofocus:			false,
+    		observeChanges:		false,		
+    		allowMultiple:		false,
+    		keyboardShortcuts:	false,
+    			context:			"body",
+    		closable:			false,
+    			transition:			"scale",
+    		duration:			400, 
+    		inverted: 			true,
+    	    blurring: 			false
+    	});
+     $('#dropdown_icon').dropdown();
+     $("[id$='department_json']").dropdown({
+    	    apiSettings: {
+    	        // this url parses query server side and returns filtered results
+    	        url: "{% url 'framework:query_json_department' %}"
+    	      },
+    	      saveRemoteData:false,
+    	});
+     $("[id$='super_department_json']").dropdown({
+ 	    apiSettings: {
+ 	        // this url parses query server side and returns filtered results
+ 	        url: "{% url 'framework:query_json_superdepartment' %}"
+ 	      },
+ 	      saveRemoteData:false,
+ 	});
+     $('#user_manage_add').on('click', function(){
+	    $("#add_modal").modal("show");
+        });
+     $('#add_close').on('click', function(){
+        $("#add_modal").modal("hide");
+        });
+     </script>
+   </body> 
+</html>
+
+

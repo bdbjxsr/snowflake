@@ -1,4 +1,4 @@
-﻿
+
 //datatable page semantic datatable settings
 (function (window, document, undefined) {
     var factory = function ($, DataTable) {
@@ -149,9 +149,11 @@
 })(window, document);
 
 $(document).ready(function () {
-    var dtable = $('.table').DataTable({
-        "pagingType": "full_numbers",
-        order: [1, 'desc'],
+    var dtable = $('#data_table').DataTable({
+        pagingType: "full_numbers",
+        order: [0, 'asc'],
+        lengthMenu: [[5, 10, -1], [5, 10, "全部"]],
+        filter: false,
         responsive: true,
         buttons: [
             {
@@ -189,5 +191,7 @@ $(document).ready(function () {
         	        }
         	    }
     });
+    
+    
 });
 

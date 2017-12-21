@@ -39,7 +39,7 @@
           
               <div class="ui very padded centered grid">
                  <div class="column">
-                    <form class="ui form" action="{% url 'framework:auth-login' %}" method='post' enctype="multipart/form-data">
+                    <form class="ui form" action="{% url 'framework:auth_login' %}" method='post' enctype="multipart/form-data">
                       {% csrf_token %}
                        <div class="field">
                           <div class="ui large left icon centered input">
