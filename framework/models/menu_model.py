@@ -15,17 +15,55 @@ class MenuItemManager(SoftDeletionManager):
         super(MenuItemManager, self).__init__(*args, **kwargs)
         
     def get_menu(self, request):
-        menu_tree = {}
-        for top_menu in self.get_queryset().filter(parent_menu=None):
-            if auth.has_perm(request=request, perm=top_menu.permission):
-                menu_tree[top_menu] = self._get_child_menu_tree(request=request, menu=top_menu)
+        """
+        return user menu recurcive max depth 3
+        format likes:
+        [
+          {
+            "id": 1, "name": "UserManagment", "code": "um", "url": "/user/manage", "icon": "user",
+            "sub_menu": [
+              {"id": 1, "name": "UserManagment", "code": "um", "url": "/user/manage", "icon": "user",},
+              {"id": 1, "name": "UserManagment", "code": "um", "url": "/user/manage", "icon": "user", "sub_menu": [
+                {"id": 1, "name": "UserManagment", "code": "um", "url": "/user/manage", "icon": "user",},
+                {"id": 1, "name": "UserManagment", "code": "um", "url": "/user/manage", "icon": "user",},
+                {"id": 1, "name": "UserManagment", "code": "um", "url": "/user/manage", "icon": "user",}
+                ]},
+                ......
+            ]
+          },
+          {
+            "id": 1,
+            "name": "Appetizers",
+            "code":
+            "url":
+            ......
+        ]
+        """
+        menu_tree = []
+        for menu_top in self.get_queryset().filter(parent_menu=None):
+            if auth.has_perm(request=request, perm=menu_top.permission):
+                menu_temp = {}
+                menu_temp['id'] = menu_top.id
+                menu_temp['name'] = menu_top.name
+                menu_temp['code'] = menu_top.code
+                menu_temp['icon'] = menu_top.icon
+                menu_temp['url'] = menu_top.url
+                menu_temp['sub_menu'] = self._get_child_menu_tree(request=request, menu=menu_top)
+                menu_tree.append(menu_temp)
         return menu_tree
     
     def _get_child_menu_tree(self, request, menu):
-        menu_tree = {}
+        menu_tree = []
         for child_menu in self.get_queryset().filter(parent_menu=menu):
             if auth.has_perm(request=request, perm=child_menu.permission):
-                menu_tree[child_menu] = self._get_child_menu_tree(request=request, menu=child_menu)
+                menu_temp = {}
+                menu_temp['id'] = child_menu.id
+                menu_temp['name'] = child_menu.name
+                menu_temp['code'] = child_menu.code
+                menu_temp['icon'] = child_menu.icon
+                menu_temp['url'] = child_menu.url
+                menu_temp['sub_menu'] = self._get_child_menu_tree(request=request, menu=child_menu)
+                menu_tree.append(menu_temp)
         return menu_tree
         
     def get_queryset(self):

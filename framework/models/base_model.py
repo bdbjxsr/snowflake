@@ -34,8 +34,8 @@ class SoftDeletionManager(models.Manager):
 
 class SnowModel(models.Model):
     #通用表字段
-    create_datetime = models.DateTimeField(auto_now_add=True)
-    update_datetime = models.DateTimeField(auto_now=True)
+    create_datetime = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    update_datetime = models.DateTimeField(auto_now=True, null=True, blank=True)
     
     is_deleted = models.BooleanField(default=False)
 

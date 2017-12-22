@@ -16,7 +16,7 @@ from framework.models.menu_model import MenuItemModel
 class IndexView(View):    
     def get(self, request, *args, **kwargs):
         mi = MenuItemModel.objects.get_menu(request)    
-        return render(request, "framework/index.html", {'username':request.user.username, 'menu':mi})
+        return render(request, "framework/index1.html", {'username':request.user.username, 'menu':mi})
     
     @method_decorator(login_required())
     @method_decorator(permission_required(perm=('can_program','can_manage')))

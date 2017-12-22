@@ -43,21 +43,21 @@
 	            <div class="ui fitted divider"></div>	
 		         <!-- 粗单栏 -->
 	            <div class="ui accordion inverted ">
-		            {% for key,value in menu.items %} 
+		            {% for item in menu.items %} 
 			            <div class="title item">
-			                   <i class="{{ key.icon }} titleIcon icon"></i>
-			                   <i class="dropdown icon"></i>{{ key.name }}
+			                   <i class="{{ item.icon }} titleIcon icon"></i>
+			                   <i class="dropdown icon"></i>{{ item.name }}
 		               </div>
 		               <div class="content">
 		               	   {% for key,value in value.items %} 
-		                   <a class="item" href="#" onclick="menuClick('{{ key.code }}','{{ key.name }}','{{ key.url }}')">{{ key.name }}</a>
+		                   <a class="item" href="#" onclick="menuClick('{{ item.code }}','{{ item.name }}','{{ item.url }}')">{{ item.name }}</a>
 		                   {% endfor %}
 		               </div>
 		            {% endfor %}
 	            </div>
 	
 	            <!-- 细菜单栏 -->
-	            {% for key,value in menu.items %} 
+	            {% for item in menu.items %} 
 	            <div class="ui scrolling dropdown item displaynone ">
 	                <span>{{ key.name }}</span>
 	                <i class="{{ key.icon }} icon"></i>
@@ -113,8 +113,8 @@
                            </div>
                        </div>
                     </div>
-                    <div class="ui greyli inverted menu stackable marginnone"  id="tab-title-main">               	     
-                        <a class="active orange item" id="maintab" data-tab="maintab">首页 </a>              
+                    <div class="ui greyli inverted menu stackable marginnone"  id="tab-title-main">
+                    	<a class="active orange item" id="maintab" data-tab="maintab">首页 </a>              
                     </div>
 	            </div>
             	<!--navbar-->
