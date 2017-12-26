@@ -1,17 +1,11 @@
 $(document).ready(function(){
   $('#maintab').tab();
-  $('.ui.dropdown').dropdown({
-    on: 'hover',
-    action:'select'
-  });
-$('.browse').popup({
-    inline: true,
-    hoverable  : true,
+  $('.menutop').popup({
     position   : 'bottom left',
+    boundary:'body',
     delay: {
-      show: 300,
-      hide: 100
+      show: 200,
+      hide: 200
     }
   });
-
 });

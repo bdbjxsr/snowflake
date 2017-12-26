@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'stationconfig.apps.StationconfigConfig',
     'framework.apps.FrameworkConfig',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

@@ -17,4 +17,5 @@ from django.conf.urls import include, url
 
 urlpatterns = [
     url(r'^framework/', include('framework.urls')),
+    url(r'^stationconfig/', include('stationconfig.urls')),
 ]

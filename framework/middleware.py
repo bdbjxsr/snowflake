@@ -1,4 +1,6 @@
 from django.utils.deprecation import MiddlewareMixin
+from django.http import HttpResponseRedirect
+from django.conf import settings
 
 from framework.models.auth_model import UserModel
 

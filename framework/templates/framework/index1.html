@@ -12,37 +12,36 @@
   <body>
     <div class="main-wrap">
       <div class="top-menu">
-
-        <div class="ui big menu inverted radiusnone">
-          <img class="ui image logo" src="{% static 'images/logo.png' %}" alt="snowflake" />
-          {% for item in menu %} 
-          <div></div>
-            <a class="browse item"  onclick="menuClick('{{ item.code }}','{{ item.name }}','{{ item.url }}');">
-              {{ item.name }}
-              <i class="{{ item.icon }} icon"></i>
-            </a>
-            {% if item.sub_menu %} 
-            <div id="popup1" class="ui flowing popup bottom left transition hidden" style="top: 556.667px; left: 0.666687px; bottom: auto; right: auto; width: 1000px;">
-              <div class="ui relaxed divided grid">
-              {% for item2 in item.sub_menu %} 
-                <div class="four wide column">
-                  <h4 class="ui header" onclick="menuClick('{{ item2.code }}','{{ item2.name }}','{{ item2.url }}');">{{ item2.name }}</h4>
-                  {% if item2.sub_menu %} 
-                    <div class="ui link list">
-                    {% for item3 in item2.sub_menu %} 
-                      <a class="item" onclick="menuClick('{{ item3.code }}','{{ item3.name }}','{{ item3.url }}');">{{ item3.name }}</a>
-                    {% endfor %}
-                    </div>
-                  {% endif %}
-                </div>
-              {% endfor %}
-              </div>
-            </div>
-            {% endif %}
-          </div>
-          {% endfor %}
         
-      </div>
+        <div class="ui big menu inverted radiusnone">         
+<!--           <img class="ui image logo inverted" src="{% static 'images/logo.png' %}" alt="snowflake" />  -->
+          {% for item in menu %} 
+          <a class="menutop item" id='menutop' onclick="menuClick('{{ item.code }}','{{ item.name }}','{{ item.url }}');">
+            {{ item.name }}
+            <i class="{{ item.icon }} icon"></i>
+          </a>
+          {% if item.sub_menu %} 
+          <div class="ui popup bottom flowing left">
+            <div class="ui sixteen column divided grid">
+            {% for item2 in item.sub_menu %} 
+              <div class="four wide column">
+                <h4 class="ui header" onclick="menuClick('{{ item2.code }}','{{ item2.name }}','{{ item2.url }}');">{{ item2.name }}</h4>
+                <div class="ui divider"></div>
+                {% if item2.sub_menu %} 
+                  <div class="ui link list">
+                  {% for item3 in item2.sub_menu %} 
+                    <a class="item" onclick="menuClick('{{ item3.code }}','{{ item3.name }}','{{ item3.url }}');">{{ item3.name }}</a>
+                  {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+            </div>
+          </div>
+          {% endif %}          
+          {% endfor %}
+        </div> 
+      </div>    
 
       <div class="tab-title-menu">
         <div class="ui greyli mini attached radiusnone menu stackable" id="tab-title-main">
