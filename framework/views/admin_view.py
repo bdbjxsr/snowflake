@@ -64,7 +64,7 @@ class SearchUserView(View):
         employee_id = data.get('find_employee_id')
         username = data.get('find_username')
         dprt_id = data.get('find_dprt')
-        sp_dprt_id = data.get('find_sp_dprt')
+        sp_dprt_id = data.get('find_spdprt')
         superior = data.get('find_superior')
         
         userItems = UserModel.objects.all()
@@ -92,7 +92,7 @@ class SearchUserView(View):
        
         return render(request, "framework/page/user_manage.html", {'user':userItems, 
                                                                    'find_employee_id':employee_id, 'find_username':username,
-                                                                   'find_dprt':dprt_id,'find_sp_dprt':sp_dprt_id, })
+                                                                   'find_dprt':dprt_id,'find_spdprt':sp_dprt_id, })
         
 class QueryJsonDepartmentView(View):
     def get(self, request, *args, **kwargs):
@@ -101,6 +101,14 @@ class QueryJsonDepartmentView(View):
             if dp_temp.super_department:
                 data.append({'name':dp_temp.name, 'value':dp_temp.id}) 
         return JsonResponse({"success":True,"results":data})
+    def post(self, request, *args, **kwargs):
+        spdprt = request.get('spdprt')
+        data= []
+        for dp_temp in DepartmentModel.objects.all():
+            if dp_temp.super_department.name == spdprt:
+                data.append({'name':dp_temp.name, 'value':dp_temp.id})
+        return JsonResponse({"success":True,"results":data})
+
 
 class QueryJsonSuperDepartmentView(View):
     def get(self, request, *args, **kwargs):
@@ -120,7 +128,7 @@ class AddUserView(View):
         employee_id = data.get('add_employee_id')
         username = data.get('add_username')
         dprt_id = data.get('add_dprt')
-        sp_dprt_id = data.get('add_sp_dprt')
+        sp_dprt_id = data.get('add_spdprt')
         superior = data.get('add_superiors')   
         user = UserModel.create_user(employee_id=employee_id, username=username, password="00000")
         user.department_id = dprt_id
@@ -131,3 +139,32 @@ class AddUserView(View):
         userItems = UserModel.objects.all()
         return render(request, "framework/page/user_manage.html", {'user':userItems})    
         
+class ModifyUserView(View):
+    def get(self, request, *args, **kwargs):
+        return HttpResponseRedirect(reverse('framework:user_manage'))
+    
+    def post(self, request, *args, **kwargs):
+        data = request.POST
+        employee_id = data.get('modify_employee_id')
+        username = data.get('modify_username')
+        dprt_id = data.get('modify_dprt') 
+        print(dprt_id)
+        sp_dprt_id = data.get('modify_spdprt')
+        superior = data.get('modify_superiors')   
+        UserModel.objects.filter(employee_id=employee_id).update(username=username)
+        user = UserModel.objects.get(employee_id=employee_id)
+        user.department_id = dprt_id
+        user.save()
+        userItems = UserModel.objects.all()
+        return render(request, "framework/page/user_manage.html", {'user':userItems})
+    
+class DeleteUserView(View):
+    def get(self, request, *args, **kwargs):
+        return HttpResponseRedirect(reverse('framework:user_manage'))
+    
+    def post(self, request, *args, **kwargs):
+        data = request.POST
+        employee_id = data.get('post_id')
+        UserModel.objects.filter(employee_id=employee_id).update(is_deleted=True)
+        userItems = UserModel.objects.exclude(is_deleted=True)
+        return render(request, "framework/page/user_manage.html", {'user':userItems})

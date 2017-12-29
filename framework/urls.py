@@ -16,6 +16,8 @@ urlpatterns = [
     url(r'^admin/user/manage$', admin_view.ManageUserView.as_view(), name='user_manage'),
     url(r'^admin/user/search$', admin_view.SearchUserView.as_view(), name='user_search'),
     url(r'^admin/user/add$', admin_view.AddUserView.as_view(), name='user_add'),
+    url(r'^admin/user/modify$', admin_view.ModifyUserView.as_view(), name='user_modify'),
+    url(r'^admin/user/delete$', admin_view.DeleteUserView.as_view(), name='user_delete'),
     url(r'^admin/department/query/json$', admin_view.QueryJsonDepartmentView.as_view(), name='query_json_department'),
     url(r'^admin/superdepartment/query/json$', admin_view.QueryJsonSuperDepartmentView.as_view(), name='query_json_superdepartment'),
     

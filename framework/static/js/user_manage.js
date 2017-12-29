@@ -166,6 +166,12 @@ $(document).ready(function () {
                 }
             }
         ],
+        columnDefs: [
+            {
+              "targets": [ 5 ],
+              "visible": false
+            }
+        ],
         language: {
         	        "sProcessing": "处理中...",
         	        "sLengthMenu": "显示 _MENU_ 项结果",
@@ -191,7 +197,15 @@ $(document).ready(function () {
         	        }
         	    }
     });
-    
+    $('#user_manage_operate').on( 'click', function (e) {
+        e.preventDefault();
+ 
+        // Get the column API object
+        var column = dtable.column( $(this).attr('data-column') );
+ 
+        // Toggle the visibility
+        column.visible( ! column.visible() );
+    } );
     
 });
 
