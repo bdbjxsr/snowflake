@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <title>PutFile脚本</title>
+</head>
+<body>
+set mydate=%date:~0,4%%date:~5,2%%date:~8,2%<br>
+
+{% for fund in funds %}
+md E:\XBRL\sign\{{ fund.md }}send<br>
+copy /y E:\XBRL\sign\{{ fund.md }}CN* E:\XBRL\sign\{{ fund.md }}send\<br>
+java -Dfile.encoding=GBK  -cp E:\\lgfilecomm-1.4.2.6.jar com.filecomm.fileClient mput 10.99.165.82 8686 10.99.165.82 E:/XBRL/sign/{{ fund.mput }}send/
+E:/send/{{ fund.send }}<br>
+rd /s/q E:\XBRL\sign\{{ fund.md }}send<br><br>
+{% endfor %}
+
+</body>

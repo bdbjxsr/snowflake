@@ -157,14 +157,16 @@ $('#dropdown_icon').dropdown();
 $('#permision_json').dropdown({
     apiSettings: {
         // this url parses query server side and returns filtered results
-        url: "{% url 'framework:queryPermissionJson' %}"
+        url: "{% url 'framework:query_json_permission' %}"
       },
-      saveRemoteData:false,
+    saveRemoteData:false,
+    onChange:function(data){alert(data);},
 });
+
 $("#submit").click(function(){
 	 $.ajax({    
          type:'post',        
-         url:"{% url 'framework:pageManageAdd' %}",    
+         url:"{% url 'framework:admin_page_add' %}",    
          data:$("#page_manage_modal_form").serialize(),    
          cache:false,    
          dataType:'json',    

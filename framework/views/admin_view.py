@@ -48,11 +48,7 @@ class QueryJsonPermissionView(View):
 class ManageUserView(View):
     def get(self, request, *args, **kwargs):
         userItems = UserModel.objects.all()
-        superiors = [] 
-        for user in UserModel.objects.all():
-            if not user.superiors:
-                superiors.append(user) 
-        return render(request, "framework/page/user_manage.html", {'user':userItems, 'superiors':superiors}) 
+        return render(request, "framework/page/user_manage.html", {'user':userItems}) 
 
 
 class SearchUserView(View):
@@ -148,7 +144,6 @@ class ModifyUserView(View):
         employee_id = data.get('modify_employee_id')
         username = data.get('modify_username')
         dprt_id = data.get('modify_dprt') 
-        print(dprt_id)
         sp_dprt_id = data.get('modify_spdprt')
         superior = data.get('modify_superiors')   
         UserModel.objects.filter(employee_id=employee_id).update(username=username)

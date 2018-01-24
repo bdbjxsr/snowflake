@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <title>GetFile脚本</title>
+</head>
+<body>
+set mydate=%date:~0,4%%date:~5,2%%date:~8,2%<br>
+set pathfrom=E:\\recv\\<br>
+set pathto=E:\XBRL\xbrl\<br>
+
+{% for fund in funds %}
+java -Dfile.encoding=GBK  -cp E:\\lgfilecomm-1.4.2.6.jar com.filecomm.fileClient mget 10.99.165.82 8686 10.99.165.82%pathfrom%{{ fund.pathfrom }}
+%pathto%{{ fund.pathto_temp }}<br>
+move %pathto%{{ fund.move }}  %pathto%{{fund.pathto}}<br>
+del  %pathto%{{ fund.pathto_temp }}* /Q<br><br>
+{% endfor %}
+
+</body>

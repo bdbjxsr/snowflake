@@ -7,11 +7,12 @@ from datetime import datetime
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views import View
 from django.utils.decorators import method_decorator
+from django.shortcuts import render
 
 from framework.models.auth_model import UserModel, DepartmentModel, PositionModel, PermissionModel, UserPositionModel
 from framework.models.menu_model import MenuItemModel
 from framework.decorator import login_required
-from django.shortcuts import render
+
 
 class TestMethodView(View):
     def get(self, request, method, *args, **kwargs):

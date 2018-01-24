@@ -1,0 +1,14 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <title>MoveFile脚本</title>
+</head>
+<body>
+{% for fund in funds %}
+IF EXIST E:\XBRL\sign\{{ fund.if_exist}} move E:\XBRL\sign\{{ fund.if_exist }} E:\XBRL\sign\{{ fund.move_file }}<br>
+{% endfor %}
+
+</body>
