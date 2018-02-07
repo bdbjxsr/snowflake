@@ -27,6 +27,9 @@
             </button>
           </div>
           <div class=" right aligned column">
+            <button class="ui labeled icon button pinkli2" id="manage_add" onclick='window.open("{% url 'stationconfig:manager' %}")'>
+              <i class="right file text outline icon"></i>管理人列表
+            </button>
             <div class="ui buttons blue">
               <div class="ui button">导出脚本</div>
               <div class="ui floating dropdown icon button">
@@ -42,12 +45,12 @@
         </div>
       </div>
       
-      <form class="ui form" id="search_modal_form" action="{% url 'stationconfig:search' %}" method='post' enctype="multipart/form-data">
+      <form class="ui form" id="search_modal_form" action="{% url 'stationconfig:search_fund' %}" method='post' enctype="multipart/form-data">
     	  {% csrf_token %} 
 	      <div class="inline fields">
           <div class="field">
             <label for="search_manager" class="control-label">管理人：</label>
-            <div class="ui search small selection dropdown" id="search_manager">
+            <div class="ui small selection dropdown" id="search_manager">
               <input type="hidden" name="search_manager" >
               <div class="default text">管理人</div>
               <i class="dropdown icon"></i>
@@ -55,7 +58,7 @@
           </div>
           <div class="field">
             <label for="search_fund" class="control-label">项目名称：</label>
-            <div class="ui search small selection dropdown" id="search_fund">
+            <div class="ui small selection dropdown" id="search_fund">
               <input type="hidden" name="search_fund" >
               <div class="default text">项目名称</div>
               <i class="dropdown icon"></i>
@@ -63,7 +66,7 @@
           </div>  
           <div class="field" id="advanced_field1">
             <label>数据类型： </label>
-            <select class="ui search small dropdown" name="search_fundtype">
+            <select class="ui small dropdown" name="search_fundtype">
               <option value="" data-filtered="filtered">数据类型</option>
               <option value="xbrl" data-filtered="filtered">xbrl</option>
               <option value="ta" data-filtered="filtered">ta</option>
@@ -71,7 +74,7 @@
           </div>
           <div class="field" id="advanced_field2">
             <label>历史数据：</label>
-            <select class="ui search small dropdown" name="search_history">
+            <select class="ui small dropdown" name="search_history">
               <option value="" data-filtered="filtered">是否历史数据</option>
               <option value=True data-filtered="filtered">是</option>
               <option value=False data-filtered="filtered">否</option>
@@ -149,93 +152,234 @@
     <div class="ui modal" id="add_modal">
       <div class="header">添加新基金</div>
       <div class="content">
-        <form class="ui form" id="add_modal_form" action="{% url 'stationconfig:add' %}" method='post' enctype="multipart/form-data" onsubmit="alert('添加成功')">
+        <form class="ui form" id="add_modal_form" action="{% url 'stationconfig:add_fund' %}" method='post' enctype="multipart/form-data" onsubmit="alert('添加成功')">
     	  {% csrf_token %}
           <h4>项目信息:</h4>
-          <div class="three fields">
-            <div class="field">
-              <label>管理人</label>
-              <input placeholder="管理人" name="add_manager" type="text" required="required" id="add_manager">
+          <div class="inline fields" >
+            <div class="field" id="add_exist1">
+              <label for="add_manager_exist" class="control-label">管理人</label>
+              <div class="ui selection dropdown" id="add_manager_exist">
+                <input type="hidden" name="add_manager_exist" >
+                <div class="default text">管理人</div>
+                <i class="dropdown icon"></i>
+              </div> 
             </div>
-            <div class="field">
+            <div class="field" id="add_exist2">
               <label>管理人代码</label>
-              <input placeholder="管理人代码" name="add_manager_code" type="text" required="required" id="add_manager_code">
+              <input placeholder="管理人代码" name="add_manager_code_exist" type="text" id="add_manager_code_exist">
             </div>
-            <div class="field">
-              <label>项目名称</label>
-              <input placeholder="项目名称" name="add_fundname" type="text" required="required" id="add_fundname">
+
+            <div class="field" id="add_new1">
+              <label>管理人</label>
+              <input placeholder="管理人" name="add_manager_new" type="text" id="add_manager_new" onkeyup="copyManager()">
             </div>
-          </div>
-          <div class="three fields">
-            <div class="field">
-              <label>项目代码</label>
-              <input placeholder="项目代码" name="add_fundcode" type="text" id="add_fundcode">
+            <div class="field" id="add_new2">
+              <label>管理人代码</label>
+              <input placeholder="管理人代码" name="add_manager_code_new" type="text" id="add_manager_code_new" onkeyup="copyManagerCode()">
             </div>
+
             <div class="field">
-              <label>项目类型</label>
-              <select class="ui selection " name='add_fundtype' id="add_fundtype" >
-                <option value='xbrl' >xbrl</option>
-                <option value='ta'>ta</option>  
-              </select>
-            </div>
-            <div class="field">
-              <label>是否历史数据</label>
-              <select class="ui selection" name='add_history' id="add_history" >
-                <option value='True' data-filtered="filtered">True</option>
-                <option value='False' data-filtered="filtered">False</option>  
-              </select>
+              <button class="ui teal basic left floated button" type="button" id="exist_or_add">新增管理人</button>
             </div>
           </div>
 
-          <h4>GetFile:</h4>
           <div class="four fields">
             <div class="field">
-              <label>java -Dfile.encoding=GBK  -cp E:\\lgfilecomm-1.4.2.6.jar com.filecomm.fileClient mget 10.99.165.82 8686 10.99.165.82 %pathfrom%</label>
-              <input placeholder="pathfrom" name="add_pathfrom" type="text" required="required" id="add_pathfrom">
+              <label>项目名称</label>
+              <input placeholder="项目名称" name="add_fundname" type="text" required="required" id="add_fundname" onkeyup="copyFund()">
             </div>
             <div class="field">
-              <label><br><br><br><br>%pathto%</label>
-              <input placeholder="pathto_temp" name="add_pathto_temp" type="text" required="required" id="add_pathto_temp">
+              <label>项目代码</label>
+              <input placeholder="项目代码" name="add_fundcode" type="text" id="add_fundcode" onkeyup="copyFundCode()">
             </div>
             <div class="field">
-              <label><br><br><br><br>move %pathto%</label>
-              <input placeholder="move" name="add_move" type="text" required="required" id="add_move">
+              <label for="add_fundtype" class="control-label">项目类型</label>
+              <div class="ui selection dropdown" id="add_fundtype">
+                <input type="hidden" name="add_fundtype" >
+                <div class="default text">项目类型</div>
+                <i class="dropdown icon"></i>
+                <div class="menu" data-filtered="filtered">
+                  <div class="item" data-value="xbrl" data-filtered="filtered" >xbrl</div>
+                  <div class="item" data-value="ta" data-filtered="filtered">ta</div>
+                </div>  
+              </div> 
             </div>
             <div class="field">
-              <label><br><br><br><br>%pathto%</label>
-              <input placeholder="pathto" name="add_pathto" type="text" required="required" id="add_pathto">
+              <label for="add_history" class="control-label">是否历史数据</label>
+              <div class="ui selection dropdown" id="add_history">
+                <input type="hidden" name="add_history" >
+                <div class="default text">是否历史数据</div>
+                <i class="dropdown icon"></i>
+                <div class="menu" data-filtered="filtered">
+                  <div class="item" data-value="True" data-filtered="filtered">True</div>
+                  <div class="item" data-value="False" data-filtered="filtered">False</div>
+                </div>  
+              </div> 
             </div>
           </div>
 
-          <h4>PutFile:</h4>
-          <div class="three fields">
-            <div class="field">
-              <label><br><br>md E:\XBRL\sign\</label>
-              <input placeholder="md" name="add_md" type="text" required="required" id="add_md">
-              <label>send</label>
+          <div id="xbrl_data1_history">
+            <h4>GetFile:</h4>
+            <div class="four fields">
+              <div class="field">
+                <label>java -Dfile.encoding=GBK  -cp E:\\lgfilecomm-1.4.2.6.jar com.filecomm.fileClient mget 10.99.165.82 8686 10.99.165.82 %pathfrom%</label>
+                <input placeholder="pathfrom" name="add_pathfrom" type="text" id="add_pathfrom">
+              </div>
+              <div class="field">
+                <label><br><br><br><br>%pathto%</label>
+                <input placeholder="pathto_temp" name="add_pathto_temp" type="text" id="add_pathto_temp">
+              </div>
+              <div class="field">
+                <label><br><br><br><br>move %pathto%</label>
+                <input placeholder="move" name="add_move" type="text" id="add_move">
+              </div>
+              <div class="field">
+                <label><br><br><br><br>%pathto%</label>
+                <input placeholder="pathto" name="add_pathto" type="text" id="add_pathto">
+              </div>
             </div>
-            <div class="field">
-              <label>java -Dfile.encoding=GBK  -cp E:\\lgfilecomm-1.4.2.6.jar com.filecomm.fileClient mput 10.99.165.82 8686 10.99.165.82 E:/XBRL/sign/</label>
-              <input placeholder="mput" name="add_mput" type="text" required="required" id="add_mput">
-              <label>send</label>
+
+            <h4>PutFile:</h4>
+            <div class="three fields">
+              <div class="field">
+                <label><br><br>md E:\XBRL\sign\</label>
+                <input placeholder="md" name="add_md" type="text" id="add_md">
+                <label>send</label>
+              </div>
+              <div class="field">
+                <label>java -Dfile.encoding=GBK  -cp E:\\lgfilecomm-1.4.2.6.jar com.filecomm.fileClient mput 10.99.165.82 8686 10.99.165.82 E:/XBRL/sign/</label>
+                <input placeholder="mput" name="add_mput" type="text" id="add_mput">
+                <label>send</label>
+              </div>
+              <div class="field">
+                <label><br><br>E:/send/</label>
+                <input placeholder="send" name="add_send" type="text" id="add_send">
+              </div>
             </div>
-            <div class="field">
-              <label><br><br>E:/send/</label>
-              <input placeholder="send" name="add_send" type="text" required="required" id="add_send">
+
+            <h4>文件移动:</h4>
+            <div class="two fields">
+              <div class="field">
+                <label>IF EXIST E:\XBRL\sign\</label>
+                <input placeholder="if_exist" name="add_if_exist" type="text" id="add_if_exist">
+                <label>move</label>
+              </div>
+              <div class="field">
+                <label>E:\XBRL\sign\</label>
+                <input placeholder="move_file" name="add_move_file" type="text" id="add_move_file">
+              </div>
             </div>
           </div>
 
-          <h4>文件移动:</h4>
-          <div class="two fields">
-            <div class="field">
-              <label>IF EXIST E:\XBRL\sign\</label>
-              <input placeholder="if_exist" name="add_if_exist" type="text" required="required" id="add_if_exist">
-              <label>move</label>
+          <div id="xbrl_data1_new">
+            <h4>GetFile:</h4>
+            <div class="inline fields">
+              <div class="field">
+                <label>%pathfrom%</label>
+                <input placeholder="管理人代码" name="add_pathfrom_new1" type="text" id="add_pathfrom_new1">
+              </div>
+              <div class="field">
+                <label>\\</label>
+                <input placeholder="管理人" name="add_pathfrom_new2" type="text" id="add_pathfrom_new2">
+                <label>\\XBRL\\%mydate%\\</label>
+              </div>
             </div>
-            <div class="field">
-              <label>E:\XBRL\sign\</label>
-              <input placeholder="move_file" name="add_move_file" type="text" required="required" id="add_move_file">
+            <div class="inline fields">
+              <div class="field">
+                <label>%pathto%</label>
+                <input placeholder="管理人" name="add_pathto_temp_new1" type="text" id="add_pathto_temp_new1">
+              </div>
+              <div class="field">
+                <label>\</label>
+                <input placeholder="项目名称" name="add_pathto_temp_new2" type="text" id="add_pathto_temp_new2">
+                <label>\TEMP\</label>
+              </div>
             </div>
+            <div class="inline fields">
+              <div class="field">
+                <label>move %pathto%</label>
+                <input placeholder="管理人" name="add_move_new1" type="text" id="add_move_new1">
+              </div>
+              <div class="field">
+                <label>\</label>
+                <input placeholder="项目名称" name="add_move_new2" type="text" id="add_move_new2">
+              </div>
+              <div class="field">
+                <label>\TEMP\CN_</label>
+                <input placeholder="项目代码" name="add_move_new3" type="text" id="add_move_new3">
+                <label>_*zip</label>
+              </div>
+            </div>
+            <div class="inline fields">
+              <div class="field">
+                <label>%pathto%</label>
+                <input placeholder="管理人" name="add_pathto_new1" type="text" id="add_pathto_new1">
+              </div>
+              <div class="field">
+                <label>\</label>
+                <input placeholder="项目代码" name="add_pathto_new2" type="text" id="add_pathto_new2">
+                <label>\</label>
+              </div>
+            </div>
+
+            <h4>PutFile:</h4>
+            <div class="inline fields">
+              <div class="field">
+                <label>md E:\XBRL\sign\</label>
+                <input placeholder="管理人" name="add_md_new1" type="text" id="add_md_new1">
+              </div>
+              <div class="field">
+                <label>\</label>
+                <input placeholder="项目名称" name="add_md_new2" type="text" id="add_md_new2">
+                <label>\send</label>
+              </div>
+            </div>
+            <div class="inline fields">
+              <div class="field">
+                <label>mput E:/XBRL/sign/</label>
+                <input placeholder="管理人" name="add_mput_new1" type="text" id="add_mput_new1">
+              </div>
+              <div class="field">
+                <label>/</label>
+                <input placeholder="项目名称" name="add_mput_new2" type="text" id="add_mput_new2">
+                <label>/send</label>
+              </div>
+            </div>
+            <div class="inline fields">
+              <div class="field">
+                <label>E:/send/</label>
+                <input placeholder="管理人代码" name="add_send_new1" type="text" id="add_send_new1">
+              </div>
+              <div class="field">
+                <label>/</label>
+                <input placeholder="管理人" name="add_send_new2" type="text" id="add_send_new2">
+                <label>/%mydate%/</label>
+              </div>
+            </div>
+
+            <h4>文件移动:</h4>
+            <div class="inline fields">
+              <div class="field">
+                <label>IF EXIST E:\XBRL\sign\</label>
+                <input placeholder="管理人" name="add_if_exist_new1" type="text" id="add_if_exist_new1">
+              </div>
+              <div class="field">
+                <label>\</label>
+                <input placeholder="项目名称" name="add_if_exist_new2" type="text" id="add_if_exist_new2">
+                <label>\CN*</label>
+              </div>
+            </div>
+            <div class="inline fields">
+              <div class="field">
+                <label>E:\XBRL\sign\</label>
+                <input placeholder="管理人" name="add_move_file_new1" type="text" id="add_move_file_new1">
+              </div>
+              <div class="field">
+                <label>_累计\</label>
+                <input placeholder="项目名称" name="add_move_file_new2" type="text" id="add_move_file_new2">
+              </div>
+            </div>
+
           </div>
 
           <div class="ui error message"></div>
@@ -256,13 +400,13 @@
     <div class="ui modal" id="modify_modal" >
       <div class="header">修改基金</div>
       <div class="content">
-        <form class="ui form" id="modify_modal_form" action="{% url 'stationconfig:modify' %}" method='post' enctype="multipart/form-data" onsubmit="alert('修改成功')">
+        <form class="ui form" id="modify_modal_form" action="{% url 'stationconfig:modify_fund' %}" method='post' enctype="multipart/form-data" onsubmit="alert('修改成功')">
           {% csrf_token %}
           <h4>项目信息:</h4>
           <div class="three fields">
             <div class="field">
               <label for="modify_manager" class="control-label">管理人</label>
-              <div class="ui search selection dropdown" id="modify_manager">
+              <div class="ui selection dropdown" id="modify_manager">
                 <input type="hidden" name="modify_manager" >
                 <div class="default text">管理人</div>
                 <i class="dropdown icon"></i>
@@ -285,7 +429,7 @@
             </div>
             <div class="field">
               <label for="modify_fundtype" class="control-label">项目类型</label>
-              <div class="ui search selection dropdown" id="modify_fundtype">
+              <div class="ui selection dropdown" id="modify_fundtype">
                 <input type="hidden" name="modify_fundtype" >
                 <div class="default text">项目类型</div>
                 <i class="dropdown icon"></i>
@@ -297,7 +441,7 @@
             </div>
             <div class="field">
               <label for="modify_history" class="control-label">是否历史数据</label>
-              <div class="ui search selection dropdown" id="modify_history">
+              <div class="ui selection dropdown" id="modify_history">
                 <input type="hidden" name="modify_history" >
                 <div class="default text">是否历史数据</div>
                 <i class="dropdown icon"></i>
@@ -313,7 +457,7 @@
             </div>
           </div>
           
-          <div id='xbrl_data'>
+          <div id='xbrl_data2_history'>
           <h4>GetFile:</h4>
           <div class="four fields">
             <div class="field">
@@ -384,7 +528,7 @@
     <div class="ui modal" id="delete_modal">
       <div class="header">删除基金</div>
       <div class="content">
-        <form class="ui form" id="delete_modal_form" action="{% url 'stationconfig:delete' %}" method='post' enctype="multipart/form-data" onsubmit="alert('删除成功')">
+        <form class="ui form" id="delete_modal_form" action="{% url 'stationconfig:delete_fund' %}" method='post' enctype="multipart/form-data" onsubmit="alert('删除成功')">
           {% csrf_token %}
           <input style="display:none" id="delete_fundid" name="delete_fundid">
           <h4>确定删除</h4>
@@ -415,185 +559,8 @@
     <script src="{% static 'stagb/plugins/datatable/jquery.dataTables.js' %}"></script>
      
     <script src="{% static 'stagb/js/main.js' %}"></script>
-    <script src="{% static 'js/stationconfig_table.js' %}"></script>
-    
-    <script>
-    $("[id^='advanced_field']").hide();
+    <script src="{% static 'js/fund_table.js' %}"></script>
+    <script src="{% static 'js/fund.js' %}"></script>
 
-    $('#advanced_find').on('click', function(){
-      $("[id^='advanced_field']").toggle();
-    });
-     
-
-     
-    $("#search_manager").dropdown({
-        apiSettings: {
-              url: "{% url 'stationconfig:query_json_manager' %}" },
-        saveRemoteData:false,
-        onChange:function(value, text){
-        	    $("#search_fund").dropdown({
-        	        apiSettings: {
-        	            url: '/stationconfig/fund/query/json/'+value },
-        	        saveRemoteData:false,
-              });
-              $("#search_fund").dropdown('clear');
-        },
-    });
-    
-    
-    $("#search_fund").dropdown({
-        apiSettings: {
-            url: '/stationconfig/fund/query/json/' },
-          saveRemoteData:false,}
-        );
-     
-     
-    $(".ui.modal").modal({
-    		detachable:			true,
-      	autofocus:			false,
-    		observeChanges:		false,		
-    		allowMultiple:		false,
-    		keyboardShortcuts:	false,
-    		context:			"body",
-    		closable:			false,
-    		transition:			"scale",
-    		duration:			400, 
-    		inverted: 			true,
-    	  blurring: 			false
-    });
- 
-    $('#manage_add').on('click', function(){
-	    $("#add_modal").modal("show");
-    });
-
-    $('#add_close').on('click', function(){
-      $("#add_modal").modal("hide");
-    });
-    
-    $("#xbrl_data").hide();
-
-
-    $('.modify').on('click', function(){ 	    
- 	    var manager_id = $(this).parents("tr").find(".manager").attr("id");
-      var manager = $(this).parents("tr").find(".manager").text();
- 	    var manager_code = $(this).parents("tr").find(".manager_code").text();
- 	    var fundname = $(this).parents("tr").find(".fundname").text();
- 	    var fundid = $(this).parents("tr").find(".fundname").attr("id");
- 	    var fundcode = $(this).parents("tr").find(".fundcode").text();
- 	    var fundtype = $(this).parents("tr").find(".fundtype").text();
-      var history =$(this).parents("tr").find(".history").text();
-        
-    	var pathfrom = $(this).parents("tr").find(".pathfrom").text();
-    	var pathto_temp = $(this).parents("tr").find(".pathto_temp").text();
-    	var move = $(this).parents("tr").find(".move").text();
-    	var pathto = $(this).parents("tr").find(".pathto").text();
-    	var md = $(this).parents("tr").find(".md").text();
-    	var mput = $(this).parents("tr").find(".mput").text();
-    	var send = $(this).parents("tr").find(".send").text();
-    	var if_exist = $(this).parents("tr").find(".if_exist").text();
-    	var move_file = $(this).parents("tr").find(".move_file").text();
-    	
-
-
-      $("#modify_manager").dropdown('set text', manager);
-      $("#modify_manager").dropdown('set value', manager_id); 
-      $("#modify_manager").dropdown({
-        apiSettings: {
-              url: "{% url 'stationconfig:query_json_manager' %}" },
-        saveRemoteData:false,
-        onChange:function(value, text, $choice){ 
-          id = $('#modify_manager').dropdown('get value');
-          $.ajaxSetup({ data: {csrfmiddlewaretoken: '{{ csrf_token }}' },   });
-          $.ajax({    
-            type:'post',        
-            url:"{% url 'stationconfig:select_manager' %}",    
-            data:{'manager_id':id},   
-            cache:false,    
-            dataType:'json',    
-            success:function(data,textStatus,jqXHR){
-              $("#modify_manager_code").attr({"value" : data.manager_code});},
-          });
-        },
-      });
- 	    $("#modify_manager_code").attr({"value" : manager_code});
-   	  $("#modify_fund").attr({"value" : fundname});
-   	  $("#modify_fundid").attr({"value" : fundid});
-   	  $("#modify_fundcode").attr({"value" : fundcode});
-       
-      $("#modify_fundtype").dropdown('set text', fundtype);
-      $("#modify_fundtype").dropdown('set value', fundtype); 
-      $("#modify_fundtype").dropdown({
-        onChange:function(value){ 
-          if (value=='xbrl'){$("#xbrl_data").show();}
-          if (value=='ta'){$("#xbrl_data").hide();}
-        },
-      });
-
-
-      $("#modify_history").dropdown('set text', history);
-      $("#modify_history").dropdown('set value', history); 
-
-
-
-   	  $("#modify_pathfrom").attr({"value" : pathfrom});
-      $("#modify_pathto_temp").attr({"value" : pathto_temp});
-      $("#modify_move").attr({"value" : move});
-      $("#modify_pathto").attr({"value" : pathto});
-      $("#modify_md").attr({"value" : md});
-      $("#modify_mput").attr({"value" : mput});
-      $("#modify_send").attr({"value" : send});
-      $("#modify_if_exist").attr({"value" : if_exist});
-      $("#modify_move_file").attr({"value" : move_file});
-      
-
-     
-      if (fundtype=='xbrl'){
-        $("#xbrl_data").show();}
-      
-       
-      if (history=='True'){
-      	$("#history_True").attr("selected","selected");
-        $("modify_pathfrom").attr({"value" : pathfrom});
-        $("#modify_pathto_temp").attr({"value" : pathto_temp});
-        $("#modify_move").attr({"value" : move});
-        $("#modify_pathto").attr({"value" : pathto});
-        $("#modify_md").attr({"value" : md});
-        $("#modify_mput").attr({"value" : mput});
-        $("#modify_send").attr({"value" : send});
-        $("#modify_if_exist").attr({"value" : if_exist});
-        $("#modify_move_file").attr({"value" : move_file});
-      }
-        $("#modify_modal").modal("show"); 
-      });
-        
-    
- 
-
-
-
-    $('#modify_close').on('click', function(){
-      $("#modify_modal").modal("hide");
-    });
-     
-    $('.delete').on('click', function(){
-      var fundid = $(this).parents("tr").find(".fundname").attr("id");
-  	  var manager = $(this).parents("tr").find(".manager").text(); 
-      var manager_code = $(this).parents("tr").find(".manager_code").text(); 
-  	  var fundname = $(this).parents("tr").find(".fundname").text();
-      var fundtype = $(this).parents("tr").find(".fundtype").text();
- 
-      $("#delete_fundid").attr({"value" : fundid});
-      document.getElementById("delete_manager").innerHTML = manager;
-      document.getElementById("delete_manager_code").innerHTML = manager_code;
-      document.getElementById("delete_fundname").innerHTML = fundname;
-      document.getElementById("delete_fundtype").innerHTML = fundtype;
-      $("#delete_modal").modal("show");
-    });
-     
-    $('#delete_close').on('click', function(){
-      $("#delete_modal").modal("hide");
-    });
-
-    </script>
   </body> 
 </html>
