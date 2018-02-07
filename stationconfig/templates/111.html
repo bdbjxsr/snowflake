@@ -1,0 +1,123 @@
+   
+    <script>
+
+ 
+     
+
+    //【搜索模块】管理人和项目名称的搜索下拉框联动
+    $("#search_manager").dropdown({
+        apiSettings:    { url: "{% url 'stationconfig:query_json_manager' %}" },
+        saveRemoteData: false,
+        onChange:       function(value, text){alert(value);
+        $("#search_fund").dropdown({
+        apiSettings: {
+            url: '/stationconfig/fund/query/json/'+value },
+    });},
+    });
+
+
+    //【新增模块】选择已有管理人和其管理人代码联动
+    $("#add_manager_exist").dropdown({
+        apiSettings: {
+              url: "{% url 'stationconfig:query_json_manager' %}" },
+        saveRemoteData:false,
+        onChange:function(value, text, $choice){ 
+          var id = $('#add_manager_exist').dropdown('get value');
+          $.ajaxSetup({ data: {csrfmiddlewaretoken: '{{ csrf_token }}' },   });
+          $.ajax({    
+            type:'post',        
+            url:"{% url 'stationconfig:select_manager' %}",    
+            data:{'manager_id':id},   
+            cache:false,    
+            dataType:'json',    
+            success:function(data,textStatus,jqXHR){alert(data.manager_code+text);
+              $("#add_manager_code_exist").attr({"value" : data.manager_code});
+              $("#add_pathfrom_new2").attr({"value" : text});
+              $("#add_pathto_temp_new1").attr({"value" : text});
+              $("#add_move_new1").attr({"value" : text});
+              $("#add_pathto_new1").attr({"value" : text});
+              $("#add_md_new1").attr({"value" : text});
+              $("#add_mput_new1").attr({"value" : text});
+              $("#add_send_new2").attr({"value" : text});
+              $("#add_if_exist_new1").attr({"value" : text});
+              $("#add_move_file_new1").attr({"value" : text});
+
+              $("#add_pathfrom_new1").attr({"value" : data.manager_code});
+              $("#add_send_new1").attr({"value" : data.manager_code});
+            },
+
+          });
+        },
+      });
+ 
+    //【新增模块】项目类型控制对应的详细内容输入框
+    $("#add_fundtype").dropdown({
+        onChange:function(value, text){ 
+          var history11 = $('#add_history').dropdown('get value');
+          alert(history11);
+          if (value=='xbrl'){
+            if (history=='True'){
+              $("#xbrl_data1_history").show();
+              $("#xbrl_data1_new").hide();
+              alert('1')
+            }
+            if (history=='False'){
+              $("#xbrl_data1_history").hide();
+              $("#xbrl_data1_new").show();
+              alert('2');
+            }
+          }
+          if (value=='ta'){
+            $("#xbrl_data1_history").hide();
+            $("#xbrl_data1_new").hide();
+            alert('3')
+          }
+        },
+    });
+    //【新增模块】xbrl类型添加非历史项目时根据模板自动生成
+    $("#add_history").dropdown({
+      onChange:function(value, text){ 
+        var fundtype = $('#add_fundtype').dropdown('get value');
+          alert(fundtype);
+        if (value=='True' && fundtype=='xbrl'){
+          $("#xbrl_data1_history").show();
+          $("#xbrl_data1_new").hide();
+        }
+        if (value=='False' && fundtype=='xbrl'){
+          $("#xbrl_data1_history").hide();
+          $("#xbrl_data1_new").show();
+
+        }
+      }
+    });
+
+
+
+
+   
+     
+    //【删除模块】
+    $('.delete').on('click', function(){
+      var fundid = $(this).parents("tr").find(".fundname").attr("id");
+  	  var manager = $(this).parents("tr").find(".manager").text(); 
+      var manager_code = $(this).parents("tr").find(".manager_code").text(); 
+  	  var fundname = $(this).parents("tr").find(".fundname").text();
+      var fundtype = $(this).parents("tr").find(".fundtype").text();
+ 
+      $("#delete_fundid").attr({"value" : fundid});
+      document.getElementById("delete_manager").innerHTML = manager;
+      document.getElementById("delete_manager_code").innerHTML = manager_code;
+      document.getElementById("delete_fundname").innerHTML = fundname;
+      document.getElementById("delete_fundtype").innerHTML = fundtype;
+      $("#delete_modal").modal("show");
+    });
+     
+    $('#delete_close').on('click', function(){
+      $("#delete_modal").modal("hide");
+    });
+    
+ 
+    
+    </script>
+  </body> 
+</html>

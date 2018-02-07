@@ -37,7 +37,7 @@ class FundModel(SnowModel):
     #数据类型 
     type = models.CharField(max_length=256, verbose_name='数据类型')
     #管理人代码
-    manager = models.ForeignKey(ManagerModel, null=True, blank=True, on_delete=models.CASCADE)
+    manager = models.ForeignKey(ManagerModel, null=True, blank=True, on_delete=models.CASCADE, related_name = "test")
     #是否历史数据
     is_history = models.BooleanField(default=False)
     #GetFile所需变量

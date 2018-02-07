@@ -36,12 +36,12 @@ class IndexView(View):
         response['Content-Disposition'] = 'attachment;filename="{0}"'.format(file_name)
      
         return response
-    
-    
-class ManageView(View):
+
+
+class FundView(View):
     def get(self, request, *args, **kwargs):
-        FundItems = FundModel.objects.exclude(is_deleted=True)
-        ManagerItems = ManagerModel.objects.all()
+        FundItems = FundModel.objects.exclude(is_deleted=True).order_by('fundname')
+        ManagerItems = ManagerModel.objects.all().order_by('code')
         return render(request, "stationconfig.html", {'funds':FundItems, 'managers':ManagerItems}) 
     
  
@@ -51,23 +51,23 @@ class SelectManager(View):
         manager = ManagerModel.objects.get(id=manager_id)
         data = {'manager_code':manager.code}
         data = json.dumps(data)
-        print(type(data))
         return HttpResponse(data,content_type="application/json")
+  
   
 class QueryJsonManagerView(View):
     def get(self, request, *args, **kwargs):
-        managers = ManagerModel.objects.all()
+        managers = ManagerModel.objects.all().order_by('code')
         data = []
         for manager in managers:  
-            data.append({'name':manager.name, 'value':manager.id, 'text':manager.name, 'code':manager.code})
+            data.append({'name':manager.name, 'value':manager.id, 'text':manager.name})
             
-        
         return JsonResponse({"success":True,"results":data})  
+          
           
 class QueryJsonFundView(View):
     def get(self, request, manager, *args, **kwargs):
         if not manager or manager =='':
-            funds = FundModel.objects.exclude(is_deleted=True)
+            funds = FundModel.objects.exclude(is_deleted=True).order_by('fundname')
             data = []
             for fund in funds:
                 data.append({'name':fund.fundname, 'value':fund.fundname, 'text':fund.fundname})
@@ -82,62 +82,112 @@ class QueryJsonFundView(View):
                 data.append({'name':fund.fundname, 'value':fund.fundname, 'text':fund.fundname})
             return JsonResponse({"success":True,"results":data})            
     
+
+class QueryJsonTableData(View):
+    def get(self, request, *args, **kwargs):
+        return JsonResponse({"success":True,"results":data}) 
+
     
 class SearchFundView(View):
     def get(self, request, *args, **kwargs):
-        return HttpResponseRedirect(reverse('stationconfig:manage'))
+        return HttpResponseRedirect(reverse('stationconfig:fund'))
     def post(self, request, *args, **kwargs):
         data = request.POST
         manager_id = data.get('search_manager')
-        fund_id = data.get('search_fund')
+        fundname = data.get('search_fund')
         fundtype = data.get('search_fundtype')
         history = data.get('search_history')
-        ManagerItems = ManagerModel.objects.all()
-        FundItems = FundModel.objects.exclude(is_deleted=True)
-        if (manager_id !='' and manager_id !=None) or (fund_id !='' and fund_id !=None) or (fundtype !='' and fundtype !=None) or (history !='' and history!= None):
+        ManagerItems = ManagerModel.objects.all().order_by('code')
+        FundItems = FundModel.objects.exclude(is_deleted=True).order_by('fundname')
+        if (manager_id !='' and manager_id !=None) or (fundname !='' and fundname !=None) or (fundtype !='' and fundtype !=None) or (history !='' and history!= None):
             FundItems1 = FundModel.objects.exclude(is_deleted=True)
             FundItems2 = FundModel.objects.exclude(is_deleted=True)
             FundItems3 = FundModel.objects.exclude(is_deleted=True)
             FundItems4 = FundModel.objects.exclude(is_deleted=True)
             if manager_id !='' and manager_id !=None:
-                FundItems1 = FundModel.objects.filter(manager_id=manager_id)
-            if fund_id !='' and fund_id !=None:
-                FundItems2 = FundModel.objects.filter(id=fund_id)
+                FundItems1 = FundModel.objects.filter(manager_id=manager_id).order_by('fundname')
+            if fundname !='' and fundname !=None:
+                FundItems2 = FundModel.objects.filter(fundname=fundname).order_by('fundname')
             if fundtype !='' and fundtype != None:
-                FundItems3 = FundModel.objects.filter(type=fundtype)
+                FundItems3 = FundModel.objects.filter(type=fundtype).order_by('fundname')
             if history !='' and history != None:
-                FundItems4 = FundModel.objects.filter(is_history=history)
+                FundItems4 = FundModel.objects.filter(is_history=history).order_by('fundname')
             FundItems = FundItems1 & FundItems2 & FundItems3 & FundItems4
         return render(request, "stationconfig.html", {'funds':FundItems, 'managers':ManagerItems})
 
+
 class AddFundView(View):
     def get(self, request, *args, **kwargs):
-        return HttpResponseRedirect(reverse('stationconfig:manage'))
+        return HttpResponseRedirect(reverse('stationconfig:fund'))
     
     def post(self, request, *args, **kwargs):
         data = request.POST
-        manager_code = data.get('add_manager_code')
-        manager = data.get('add_manager')
+        manager_exist = data.get('add_manager_exist')
+        manager_code_exist = data.get('add_manager_code_exist')
+        manager_new = data.get('add_manager_new')
+        manager_code_new = data.get('add_manager_code_new')
         fundname = data.get('add_fundname')
-        pathfrom = data.get('add_pathfrom')
-        pathto_temp = data.get('add_pathto_temp')
-        move = data.get('add_move')
-        pathto = data.get('add_pathto')
-        md = data.get('add_md')
-        mput = data.get('add_mput')
-        send = data.get('add_send')
-        if_exist = data.get('add_if_exist')
-        move_file = data.get('add_move_file')
-        fund = FundModel.objects.create(manager_code=manager_code, manager=manager, fundname=fundname, pathfrom=pathfrom, pathto_temp=pathto_temp,
+        fundcode = data.get('add_fundcode')
+        fundtype = data.get('add_fundtype')
+        history = data.get('add_history')
+        if manager_exist!='' and manager_new=='':
+            manager = ManagerModel.objects.get(id=manager_exist)
+        if manager_code_exist=='' and manager_new!='':
+            manager = ManagerModel.objects.create(name=manager_new, code=manager_code_new)
+        if fundtype =='xbrl':
+            if history == 'True':
+                pathfrom = data.get('add_pathfrom')
+                pathto_temp = data.get('add_pathto_temp')
+                move = data.get('add_move')
+                pathto = data.get('add_pathto')
+                md = data.get('add_md')
+                mput = data.get('add_mput')
+                send = data.get('add_send')
+                if_exist = data.get('add_if_exist')
+                move_file = data.get('add_move_file')
+                
+            if history == 'False':
+                pathfrom1 = data.get('add_pathfrom_new1')
+                pathfrom2 = data.get('add_pathfrom_new2')
+                pathfrom = pathfrom1 + '\\\\' + pathfrom2 + '\\\\XBRL\\\\%mydate%\\\\'
+                pathto_temp1 = data.get('add_pathto_temp_new1')
+                pathto_temp2 = data.get('add_pathto_temp_new2')
+                pathto_temp = pathto_temp1 + '\\' + pathto_temp2 +'\\TEMP\\'
+                move1 = data.get('add_move_new1')
+                move2 = data.get('add_move_new2')
+                move3 = data.get('add_move_new3')
+                move = move1 + '\\' + move2 +'\\TEMP\\CN_'+ move3 + '_*zip'
+                pathto1 = data.get('add_pathto_new1')
+                pathto2 = data.get('add_pathto_new2')
+                pathto = pathto1 + '\\' + pathto2 + '\\'
+                md1 = data.get('add_md_new1')
+                md2 = data.get('add_md_new2')
+                md = md1 + '\\' + md2 + '\\'
+                mput1 = data.get('add_mput_new1')
+                mput2 = data.get('add_mput_new2')
+                mput = mput1 + '/' + mput2 + '/'
+                send1 = data.get('add_send_new1')
+                send2 = data.get('add_send_new2')
+                send = send1 + '/' + send2 + '/%mydate%/'
+                if_exist1 = data.get('add_if_exist_new1')
+                if_exist2 = data.get('add_if_exist_new2')
+                if_exist = if_exist1 + '\\' + if_exist2 + '\\CN*' 
+                move_file1 = data.get('add_move_file_new1')
+                move_file2 = data.get('add_move_file_new2')
+                move_file = move_file1 + '_累计\\' + move_file2
+            fund = FundModel.objects.create(fundname=fundname, code=fundcode, type=fundtype, is_history=history, pathfrom=pathfrom, pathto_temp=pathto_temp,
                                         move=move, pathto=pathto, md=md, mput=mput, send=send, if_exist=if_exist, move_file=move_file)
-        fund.save()
-        FundItems = FundModel.objects.exclude(is_deleted=True)
+            fund.manager = manager
+            fund.save()
+        if fundtype =='ta':
+            pass
+        FundItems = FundModel.objects.exclude(is_deleted=True).order_by('fundname')
         return render(request, "stationconfig.html", {'funds':FundItems}) 
     
     
 class ModifyFundView(View):
     def get(self, request, *args, **kwargs):
-        return HttpResponseRedirect(reverse('stationconfig:manage'))
+        return HttpResponseRedirect(reverse('stationconfig:fund'))
     
     def post(self, request, *args, **kwargs):
         data = request.POST
@@ -164,19 +214,21 @@ class ModifyFundView(View):
         manager = ManagerModel.objects.get(id=manager)
         fund.manager = manager
         fund.save()
-        FundItems = FundModel.objects.exclude(is_deleted=True)
+        FundItems = FundModel.objects.exclude(is_deleted=True).order_by('fundname')
         return render(request, "stationconfig.html", {'funds':FundItems})
+    
     
 class DeleteFundView(View):
     def get(self, request, *args, **kwargs):
-        return HttpResponseRedirect(reverse('stationconfig:manage'))
+        return HttpResponseRedirect(reverse('stationconfig:fund'))
     
     def post(self, request, *args, **kwargs):
         data = request.POST
         fundid = data.get('delete_fundid')
         FundModel.objects.filter(id=fundid).update(is_deleted=True)
-        FundItems = FundModel.objects.exclude(is_deleted=True)
+        FundItems = FundModel.objects.exclude(is_deleted=True).order_by('fundname')
         return render(request, "stationconfig.html", {'funds':FundItems})
+    
     
 class ExportGetFile(View):
     def get(self, request, *args, **kwargs):
@@ -191,6 +243,7 @@ class ExportGetFile(View):
         response['Content-Disposition'] = 'attachment;filename="{0}"'.format("GetFile.bat")
         return response
     
+    
 class ExportPutFile(View):
     def get(self, request, *args, **kwargs):
         header = 'set mydate=%date:~0,4%%date:~5,2%%date:~8,2%'+'\r\n'
@@ -203,6 +256,7 @@ class ExportPutFile(View):
         response['Content-Type'] = 'application/octet-stream'
         response['Content-Disposition'] = 'attachment;filename="{0}"'.format("PutFile.bat")
         return response
+    
     
 class ExportMoveFile(View):
     def get(self, request, *args, **kwargs):

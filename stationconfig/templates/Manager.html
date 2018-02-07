@@ -1,0 +1,299 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	    
+	  <link href="{% static 'stagb/css/semantic.min.css' %}" rel="stylesheet" />
+	  <link href="{% static 'stagb/plugins/ionicons/css/ionicons.min.css' %}" rel="stylesheet" />
+	    
+	  <link href="{% static 'stagb/css/main.css' %}" rel="stylesheet" />
+	  <link href="{% static 'stagb/plugins/pacejs/pace.css' %}" rel="stylesheet" />
+    <title>管理人页面</title>
+	</head>
+
+  <body>
+    <div class="ui segment">
+      <div class="ui equal width grid"> 
+        <div class="row" style="margin:0px;padding:5px;">
+          <div class="three wide column">
+            <button class="ui labeled icon button greenli" id="manage_add">
+              <i class="right add square icon"></i>新增
+            </button>
+            <button class="ui labeled icon button yellow" id="manage_operate" data-column="3" >
+              <i class="right configure icon"></i>操作
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <form class="ui form" id="search_modal_form" action="{% url 'stationconfig:search_manager' %}" method='post' enctype="multipart/form-data">
+    	  {% csrf_token %} 
+	      <div class="inline fields">
+          <div class="field">
+            <label for="search_manager" class="control-label">管理人：</label>
+            <div class="ui small selection dropdown" id="search_manager">
+              <input type="hidden" name="search_manager" >
+              <div class="default text">管理人</div>
+              <i class="dropdown icon"></i>
+            </div> 
+          </div>
+          <div class="field">
+            <label for="search_manager_code" class="control-label">管理人代码：</label>
+            <div class="ui small selection dropdown" id="search_manager_code">
+              <input type="hidden" name="search_manager_code" >
+              <div class="default text">管理人代码</div>
+              <i class="dropdown icon"></i>
+            </div> 
+          </div>
+          <div class="field">
+            <label for="search_fund" class="control-label">项目名称：</label>
+            <div class="ui small selection dropdown" id="search_fund">
+              <input type="hidden" name="search_fund" >
+              <div class="default text">项目名称</div>
+              <i class="dropdown icon"></i>
+            </div>
+          </div> 
+              
+          <div class="field">
+            <button class="ui labeled icon blue basic right floated button" type="submit" id="fund_search" >
+            <i class="right search icon"></i>搜索
+            </button>
+          </div> 
+        </div>
+      </form>
+              
+      <table id="data_table" class="ui compact selectable striped celled table tablet stackable display" cellspacing="0" width="100%" >
+        <thead>
+          <tr class="center aligned">
+            <th>管理人</th>
+            <th>管理人代码</th>
+            <th>项目名称</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+	        {% for manager in managers %} 
+	        <tr>
+	          <td class="manager" id="{{ manager.id }}">{{ manager.name }}</td>
+	          <td class="manager_code">{{ manager.code }}</td>
+	          <td class="fundname" id="{{ fund.id }}">
+            {% for fund in manager.test.all %}
+            {{ fund.fundname }} ;
+            {% endfor %}</td>
+	          <td>
+              <button class="ui labeled icon button modify teal">
+              <i class="right write icon"></i>修改
+              </button>                      
+              <button class="ui labeled icon button delete redli">
+              <i class="right remove icon"></i>删除
+              </button>
+	          </td>
+	        </tr>
+			    {% endfor %}
+        </tbody>
+      </table>
+    </div>    
+
+    <!-- 新增modal -->
+    <div class="ui small modal" id="add_modal">
+      <div class="header">添加管理人</div>
+      <div class="content">
+        <form class="ui form" id="add_modal_form" action="{% url 'stationconfig:add_manager' %}" method='post' enctype="multipart/form-data" onsubmit="alert('添加成功')">
+    	  {% csrf_token %}
+          <div class="inline fields" >
+            <div class="field" id="add_manager">
+              <label>管理人</label>
+              <input placeholder="管理人" name="add_manager" type="text" id="add_manager">
+            </div>
+            <div class="field" id="add_manager_code">
+              <label>管理人代码</label>
+              <input placeholder="管理人代码" name="add_manager_code" type="text" id="add_manager_code">
+            </div>
+          </div>
+          <div class="ui error message"></div>
+          <div class="ui hidden divider"></div>
+          <div class="actions" style="position:relative;left:70%;">
+            <button class="ui labeled icon button redli" type="button" id="add_close" data-dismiss="add_modal">
+            <i class="right close icon"></i>取消
+            </button>
+            <button class="ui labeled icon ok button blueli" type="submit" id="add_submit">
+            <i class="right checkmark icon"></i>提交            
+            </button>
+          </div>
+		    </form>
+      </div>
+    </div>
+
+    <!-- 修改modal -->
+    <div class="ui small modal" id="modify_modal" >
+      <div class="header">修改管理人</div>
+      <div class="content">
+        <form class="ui form" id="modify_modal_form" action="{% url 'stationconfig:modify_manager' %}" method='post' enctype="multipart/form-data" onsubmit="alert('修改成功')">
+          {% csrf_token %}
+          <div class="inline fields">
+            <div class="field">
+              <label>管理人</label>
+              <input placeholder="管理人" name="modify_manager" type="text" required="required" id="modify_manager">
+            </div>
+            <div class="field">
+              <label>管理人代码</label>
+              <input placeholder="管理人代码" name="modify_manager_code" type="text" required="required" id="modify_manager_code">
+            </div>
+            <div class="field" style="display:none">
+              <label>id</label>
+              <input class="ui selection" name='modify_manager_id' id="modify_manager_id" >
+            </div>
+          </div>
+          
+          <div class="ui error message"></div>
+          <div class="ui hidden divider"></div>
+          <div class="actions" style="position:relative;left:70%;">
+            <button class="ui labeled icon button redli" type="button" id="modify_close" data-dismiss="modify_modal">
+            <i class="right close icon"></i>取消
+            </button>
+            <button class="ui labeled icon ok button blueli" type="submit" id="modify_submit">
+            <i class="right checkmark icon"></i>提交            
+            </button>
+          </div>
+		    </form>
+      </div>
+    </div>
+
+    <!-- 删除modal -->
+    <div class="ui small modal" id="delete_modal">
+      <div class="header">删除管理人</div>
+      <div class="content">
+        <form class="ui form" id="delete_modal_form" action="{% url 'stationconfig:delete_manager' %}" method='post' enctype="multipart/form-data" onsubmit="alert('删除成功')">
+          {% csrf_token %}
+          <h4>确定删除</h4>
+          <h4>管理人<span style="color:red" id="delete_manager"></span> （ 
+              <span style="color:red" id="delete_manager_code"></span> ）吗？
+          </h4>
+          <input style="display:none" id="delete_manager_id" name="delete_manager_id">
+          <div class="actions">
+            <button class="ui labeled icon right floated ok button blueli" type="submit" id="delete_submit">
+            <i class="right checkmark icon"></i>确定            
+            </button>
+            <button class="ui labeled icon right floated button redli" type="button" id="delete_close" data-dismiss="delete_modal">
+            <i class="right close icon"></i>取消
+            </button>
+          </div>
+		    </form>
+      </div>
+    </div>
+
+    <script src="{% static 'stagb/js/jquery-2.1.4.min.js' %}"></script>
+    <script src="{% static 'stagb/css/semantic.min.js' %}"></script>
+    <script src="{% static 'stagb/plugins/cookie/js.cookie.js' %}"></script>
+	  <script src=" {% static 'stagb/plugins/nicescrool/jquery.nicescroll.min.js' %}"></script>
+	
+	  <script data-pace-options='{ "ajax": false }' src="{% static 'stagb/plugins/pacejs/pace.js' %}"></script>
+    <script src="{% static 'stagb/plugins/datatable/jquery.dataTables.js' %}"></script>
+     
+    <script src="{% static 'stagb/js/main.js' %}"></script>
+    <script src="{% static 'js/manager_table.js' %}"></script>
+    
+    <script>
+    //所有模态框初始化 
+    $(".ui.modal").modal({
+        detachable:     true,
+        autofocus:      false,
+        observeChanges:   false,    
+        allowMultiple:    false,
+        keyboardShortcuts:  false,
+        context:      "body",
+        closable:     false,
+        transition:     "scale",
+        duration:     400, 
+        inverted:       true,
+        blurring:       false
+    });
+ 
+    //【搜索模块】
+    $("#search_manager").dropdown({
+        apiSettings: {
+              url: "{% url 'stationconfig:query_json_manager' %}" },
+        saveRemoteData:false,
+        onChange:function(value, text){
+              $("#search_manager_code").dropdown('clear');
+              $("#search_fund").dropdown('clear');
+              $("#search_manager").dropdown('set text', text);
+              $("#search_manager").dropdown('set value', value); 
+        },
+    });
+    
+    $("#search_manager_code").dropdown({
+        apiSettings: {
+              url: "{% url 'stationconfig:query_json_manager_code' %}" },
+        saveRemoteData:false,
+        onChange:function(value, text){
+              $("#search_manager").dropdown('clear');
+              $("#search_fund").dropdown('clear');
+              $("#search_manager_code").dropdown('set text', text);
+              $("#search_manager_code").dropdown('set value', value); 
+        },
+    });
+
+    $("#search_fund").dropdown({
+        apiSettings: {
+            url: '/stationconfig/fund/query/json/' },
+        saveRemoteData:false,
+        onChange:function(value, text){
+              $("#search_manager").dropdown('clear');
+              $("#search_manager_code").dropdown('clear');
+              $("#search_fund").dropdown('set text', text);
+              $("#search_fund").dropdown('set value', value); 
+        },
+    });
+   
+
+    //【新增模块】新增模态框的显示与关闭
+    $('#manage_add').on('click', function(){
+      $("#add_modal").modal("show");
+    });
+
+    $('#add_close').on('click', function(){
+      $("#add_modal").modal("hide");
+    });
+
+
+    //【修改模块】
+    $('.modify').on('click', function(){      
+      var manager_id = $(this).parents("tr").find(".manager").attr("id");
+      var manager = $(this).parents("tr").find(".manager").text();
+      var manager_code = $(this).parents("tr").find(".manager_code").text();
+      
+      $("#modify_manager").attr({"value" : manager});
+      $("#modify_manager_code").attr({"value" : manager_code});
+      $("#modify_manager_id").attr({"value" : manager_id});
+
+      $("#modify_modal").modal("show"); 
+    });
+        
+
+    $('#modify_close').on('click', function(){
+      $("#modify_modal").modal("hide");
+    });
+     
+
+    //【删除模块】
+    $('.delete').on('click', function(){
+      var manager_id = $(this).parents("tr").find(".manager").attr("id");
+      var manager = $(this).parents("tr").find(".manager").text(); 
+      var manager_code = $(this).parents("tr").find(".manager_code").text(); 
+
+      $("#delete_manager_id").attr({"value" : manager_id});
+      document.getElementById("delete_manager").innerHTML = manager;
+      document.getElementById("delete_manager_code").innerHTML = manager_code;
+      $("#delete_modal").modal("show");
+    });
+     
+    $('#delete_close').on('click', function(){
+      $("#delete_modal").modal("hide");
+    });
+    </script>
+  </body> 
+</html>

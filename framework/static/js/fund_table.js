@@ -1,4 +1,3 @@
-
 //datatable page semantic datatable settings
 (function (window, document, undefined) {
     var factory = function ($, DataTable) {
@@ -152,7 +151,7 @@ $(document).ready(function () {
     var dtable = $('#data_table').DataTable({
         pagingType: "full_numbers",
         order: [0, 'asc'],
-        lengthMenu: [[5, 10, -1], [5, 10, "全部"]],
+        lengthMenu: [[10, 20, -1], [10, 20, "全部"]],
         filter: false,
         responsive: true,
         buttons: [
