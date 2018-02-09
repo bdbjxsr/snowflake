@@ -27,7 +27,7 @@
             </button>
           </div>
           <div class=" right aligned column">
-            <button class="ui labeled icon button pinkli2" id="manage_add" onclick='window.open("{% url 'stationconfig:manager' %}")'>
+            <button class="ui labeled icon button pinkli2" id="manager_list" onclick='window.open("{% url 'stationconfig:manager' %}")'>
               <i class="right file text outline icon"></i>管理人列表
             </button>
             <div class="ui buttons blue">
@@ -35,9 +35,15 @@
               <div class="ui floating dropdown icon button">
                 <i class="dropdown icon"></i>
                 <div class="menu" data-filtered="filtered">
-                  <a class="item" href="{% url 'stationconfig:export_getfile' %}" target="_blank"><i class="edit icon" data-filtered="filtered"></i> 导出GetFile脚本</a>
-                  <a class="item" href="{% url 'stationconfig:export_putfile' %}" target="_blank"><i class="delete icon" data-filtered="filtered"></i> 导出PutFile脚本</a>
-                  <a class="item" href="{% url 'stationconfig:export_movefile' %}" target="_blank"><i class="hide icon" data-filtered="filtered"></i> 导出文件移动脚本</a>
+                  <a class="item" href="{% url 'stationconfig:export_movefile' %}" target="_blank">导出新建文件夹脚本</a>
+                  <div class="divider"></div>
+                  <div class="header">xbrl</div>
+                  <a class="item" href="{% url 'stationconfig:export_getfile' %}" target="_blank">导出GetFile脚本</a>
+                  <a class="item" href="{% url 'stationconfig:export_putfile' %}" target="_blank">导出PutFile脚本</a>
+                  <a class="item" href="{% url 'stationconfig:export_movefile' %}" target="_blank">导出文件移动脚本</a>
+                  <div class="divider"></div>
+                  <div class="header">ta</div>
+                  <a class="item" href="{% url 'stationconfig:export_movefile' %}" target="_blank">导出文件移动脚本</a>
                 </div>
               </div>
             </div>
@@ -50,7 +56,7 @@
 	      <div class="inline fields">
           <div class="field">
             <label for="search_manager" class="control-label">管理人：</label>
-            <div class="ui small selection dropdown" id="search_manager">
+            <div class="ui search small selection dropdown" id="search_manager">
               <input type="hidden" name="search_manager" >
               <div class="default text">管理人</div>
               <i class="dropdown icon"></i>
@@ -58,7 +64,7 @@
           </div>
           <div class="field">
             <label for="search_fund" class="control-label">项目名称：</label>
-            <div class="ui small selection dropdown" id="search_fund">
+            <div class="ui search small selection dropdown" id="search_fund">
               <input type="hidden" name="search_fund" >
               <div class="default text">项目名称</div>
               <i class="dropdown icon"></i>
@@ -561,6 +567,8 @@
     <script src="{% static 'stagb/js/main.js' %}"></script>
     <script src="{% static 'js/fund_table.js' %}"></script>
     <script src="{% static 'js/fund.js' %}"></script>
-
+    <script>
+    $.ajaxSetup({ data: {csrfmiddlewaretoken: '{{ csrf_token }}' },   });
+    </script>
   </body> 
 </html>

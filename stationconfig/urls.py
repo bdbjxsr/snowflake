@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^fund/modify$', fund_view.ModifyFundView.as_view(), name='modify_fund'),
     url(r'^fund/delete$', fund_view.DeleteFundView.as_view(), name='delete_fund'),
     
-    url(r'^select_manager$', fund_view.SelectManager.as_view(), name='select_manager'),
+    url(r'^select/manager$', fund_view.SelectManager.as_view(), name='select_manager'),
     url(r'^manager/query/json$', fund_view.QueryJsonManagerView.as_view(), name='query_json_manager'),
     url(r'^fund/query/json/(?P<manager>.*)$', fund_view.QueryJsonFundView.as_view(), name='query_json_fund'),
     

@@ -311,13 +311,6 @@
 
 
      $("[id$='_spdprt']").dropdown({
-      apiSettings: {
-          // this url parses query server side and returns filtered results
-          url: "{% url 'framework:query_json_superdepartment' %}" },
-        saveRemoteData:false,
-        onChange:function(data){alert(data);},
-     });
-     $("[id$='_spdprt']").dropdown({
          apiSettings: {
              // this url parses query server side and returns filtered results
              url: "{% url 'framework:query_json_superdepartment' %}" },
@@ -326,7 +319,7 @@
         	   $("[id$='_dprt']").dropdown({
            	    apiSettings: {
            	        // this url parses query server side and returns filtered results
-           	        url: "{% url 'framework:query_json_superdepartment' %}"}
+           	        url: "{% url 'framework:query_json_department' %}"}
            		});
         	   $("[id$='_dprt']").dropdown('clear');
            },

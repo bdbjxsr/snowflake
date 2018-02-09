@@ -56,7 +56,7 @@ class SelectManager(View):
   
 class QueryJsonManagerView(View):
     def get(self, request, *args, **kwargs):
-        managers = ManagerModel.objects.all().order_by('code')
+        managers = ManagerModel.objects.exclude(is_deleted=True).order_by('code')
         data = []
         for manager in managers:  
             data.append({'name':manager.name, 'value':manager.id, 'text':manager.name})
